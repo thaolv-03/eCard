@@ -6,4 +6,10 @@
     <string name="infor_name1">Võ Thế Lực</string>
     <string name="infor_name2">Lê Văn Thảo</string>
     <string name="addLinkedString">Thêm liên kết mới</string>
+    <string name="facebook">Facebook</string>
+    <string name="instagram">Instagram</string>
+    <string name="linkedIn">LinkedIn</string>
+    <string name="tiktok">Tiktok</string>
+    <string name="youtube">Youtube</string>
+    <string name="twitter">Twitter</string>
 </resources>
