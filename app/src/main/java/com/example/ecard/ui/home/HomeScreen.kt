@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.ecard.R
+import com.example.ecard.ui.theme.ECardTheme
 
 @Composable
 fun ImageAndName(image: Painter, description: String, name: String, modifier: Modifier = Modifier) {
@@ -47,14 +48,4 @@ fun Preview1() {
     }
 }
 
-
-@Composable
-fun PersonalInformation(image: Painter, content: String, modifier: Modifier = Modifier) {
-    Column() {
-        Row() {
-            Image(painter = painterResource(R.drawable.phone), contentDescription = null)
-            Text(text = stringResource(R.string.infor_phone))
-        }
-    }
-}
 
