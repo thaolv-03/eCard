@@ -1,6 +1,7 @@
 package com.example.ecard.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -18,29 +19,37 @@ import androidx.compose.ui.res.stringResource
 import com.example.ecard.R
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun HomeScreen() {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(
-                    text = "Hồ sơ",
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                ) },
-                backgroundColor = MaterialTheme.colors.background,
-            )
+            TopAppBarEdit(title = "Hồ sơ")
         }
     ) {
-        ImageAndName(
-            image = painterResource(id = R.drawable.user),
-            description = "",
-            name = stringResource(id = R.string.infor_name1),
-        modifier = Modifier.padding(it))
+        Column() {
+            ImageAndName(
+                image = painterResource(id = R.drawable.user),
+                description = "",
+                name = stringResource(id = R.string.infor_name1),
+                modifier = Modifier
+                    .padding(it)
+                    .padding(0.dp, 20.dp)
+            )
+
+            // Infor
+            PersonalInformation(
+                image = painterResource(R.drawable.phone),
+                content = stringResource(R.string.infor_phone),
+                modifier = Modifier.padding(
+                    horizontal = 16.dp, vertical = 8.dp
+                )
+            )
+
+            AddLinkedButton(text = stringResource(id = R.string.addLinkedString))
+        }
     }
 }
+
 @Composable
 fun ImageAndName(image: Painter, description: String, name: String, modifier: Modifier = Modifier) {
     Column(
@@ -64,6 +73,40 @@ fun ImageAndName(image: Painter, description: String, name: String, modifier: Mo
 
 }
 
+@Composable
+fun AddLinkedButton(text: String, modifier: Modifier = Modifier) {
+//    Button(onClick = { /*TODO*/ }) {
+//        Text(
+//            text = text,
+//            style = MaterialTheme.typography.h5
+//        )
+//    }
+
+    Row(
+//        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        TextButton(
+            onClick = { /*TODO*/ },
+            modifier = Modifier.background(
+                MaterialTheme.colors.surface,
+                shape = MaterialTheme.shapes.small
+            )
+        ) {
+//            Card() {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.h5,
+                color = MaterialTheme.colors.onSurface
+            )
+//            }
+
+        }
+    }
+
+
+}
 
 @Preview
 @Composable
