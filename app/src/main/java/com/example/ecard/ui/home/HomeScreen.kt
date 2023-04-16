@@ -36,7 +36,7 @@ fun HomeScreen() {
                 ImageAndName(
                     image = painterResource(id = R.drawable.user),
                     description = "",
-                    name = stringResource(id = R.string.infor_name1),
+                    name = stringResource(id = R.string.infor_name2),
                     modifier = Modifier
                         .padding(it)
                         .padding(0.dp, 20.dp)
