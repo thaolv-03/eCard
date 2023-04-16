@@ -46,7 +46,7 @@ fun HomeScreen() {
             )
 
             SocialInforItem(
-                socialImage = painterResource(id = R.drawable.user),
+                socialImage = painterResource(id = R.drawable.calendar),
                 socialName = stringResource(id = R.string.facebook),
                 modifier = Modifier
                     .width(100.dp)
