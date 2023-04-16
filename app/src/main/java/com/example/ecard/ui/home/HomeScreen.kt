@@ -6,18 +6,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.ecard.ui.theme.ECardTheme
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.example.ecard.R
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ecard.R
+import com.example.ecard.ui.theme.ECardTheme
 
 @Composable
 fun HomeScreen() {
@@ -40,8 +39,6 @@ fun HomeScreen() {
 
             // Infor
             PersonalInformation(
-                image = painterResource(R.drawable.phone),
-                content = stringResource(R.string.infor_phone),
                 modifier = Modifier
                     .padding(16.dp, 8.dp)
                     .width(300.dp)
