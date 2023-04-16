@@ -26,7 +26,9 @@ fun HomeScreen() {
             TopAppBarEdit(title = "Hồ sơ")
         }
     ) {
-        Column() {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             ImageAndName(
                 image = painterResource(id = R.drawable.user),
                 description = "",
@@ -40,9 +42,9 @@ fun HomeScreen() {
             PersonalInformation(
                 image = painterResource(R.drawable.phone),
                 content = stringResource(R.string.infor_phone),
-                modifier = Modifier.padding(
-                    horizontal = 16.dp, vertical = 8.dp
-                )
+                modifier = Modifier
+                    .padding(16.dp, 8.dp)
+                    .width(300.dp)
             )
 
             AddLinkedButton(text = stringResource(id = R.string.addLinkedString))
@@ -82,27 +84,22 @@ fun AddLinkedButton(text: String, modifier: Modifier = Modifier) {
 //        )
 //    }
 
-    Row(
-//        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxWidth()
+
+    TextButton(
+        onClick = { /*TODO*/ },
+        modifier = Modifier.background(
+            MaterialTheme.colors.surface,
+            shape = MaterialTheme.shapes.small
+        )
     ) {
-        TextButton(
-            onClick = { /*TODO*/ },
-            modifier = Modifier.background(
-                MaterialTheme.colors.surface,
-                shape = MaterialTheme.shapes.small
-            )
-        ) {
 //            Card() {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.onSurface
-            )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h5,
+            color = MaterialTheme.colors.onSurface
+        )
 //            }
 
-        }
     }
 
 
