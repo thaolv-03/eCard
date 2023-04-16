@@ -95,30 +95,6 @@ fun HomeScreen() {
                             .padding(10.dp)
                     )
                 }
-
-                Row() {
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.youtube),
-                        socialName = stringResource(id = R.string.youtube),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.tiktok),
-                        socialName = stringResource(id = R.string.tiktok),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.twitter),
-                        socialName = stringResource(id = R.string.twitter),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                }
             }
         }
     }
