@@ -3,6 +3,9 @@ package com.example.ecard.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -23,38 +26,173 @@ import com.example.ecard.ui.theme.ECardTheme
 fun HomeScreen() {
     Scaffold(
         topBar = {
-            TopAppBarEdit(title = "Hồ sơ")
+            TopAppBarEdit(title = "H ồ sơ")
         }
     ) {
-        Column(
+        LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ImageAndName(
-                image = painterResource(id = R.drawable.user),
-                description = "",
-                name = stringResource(id = R.string.infor_name1),
-                modifier = Modifier
-                    .padding(it)
-                    .padding(0.dp, 20.dp)
-            )
-
-            // Information
-            PersonalInformation(
-                modifier = Modifier
-                    .padding(16.dp, 10.dp)
-                    .width(300.dp)
-            )
-
-            SocialInforItem(
-                socialImage = painterResource(id = R.drawable.calendar),
-                socialName = stringResource(id = R.string.facebook),
-                modifier = Modifier
-                    .width(100.dp)
-                    .padding(10.dp)
+            item {
+                ImageAndName(
+                    image = painterResource(id = R.drawable.user),
+                    description = "",
+                    name = stringResource(id = R.string.infor_name1),
+                    modifier = Modifier
+                        .padding(it)
+                        .padding(0.dp, 20.dp)
                 )
+
+                PersonalInformation(
+                    modifier = Modifier
+                        .padding(16.dp, 10.dp)
+                        .width(300.dp)
+                )
+
+                PersonalInformation(
+                    modifier = Modifier
+                        .padding(16.dp, 10.dp)
+                        .width(300.dp)
+                )
+                PersonalInformation(
+                        modifier = Modifier
+                            .padding(16.dp, 10.dp)
+                            .width(300.dp)
+                        )
+
+//                Row() {
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.facebook),
+//                        socialName = stringResource(id = R.string.facebook),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.instagram),
+//                        socialName = stringResource(id = R.string.instagram),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.linkedin),
+//                        socialName = stringResource(id = R.string.linkedIn),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                }
+//
+//
+//
+//                Row() {
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.youtube),
+//                        socialName = stringResource(id = R.string.youtube),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.tiktok),
+//                        socialName = stringResource(id = R.string.tiktok),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.twitter),
+//                        socialName = stringResource(id = R.string.twitter),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                }
+            }
+
+
+//            SocialInforItem(
+//                socialImage = painterResource(id = R.drawable.facebook),
+//                socialName = stringResource(id = R.string.facebook),
+//                modifier = Modifier
+//                    .width(110.dp)
+//                    .padding(10.dp)
+//                )
+//            Column() {
+//                Row() {
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.facebook),
+//                        socialName = stringResource(id = R.string.facebook),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.instagram),
+//                        socialName = stringResource(id = R.string.instagram),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.linkedin),
+//                        socialName = stringResource(id = R.string.linkedIn),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                }
+//                Row() {
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.youtube),
+//                        socialName = stringResource(id = R.string.youtube),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.tiktok),
+//                        socialName = stringResource(id = R.string.tiktok),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.twitter),
+//                        socialName = stringResource(id = R.string.twitter),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                }
+//            }
+
+//            LazyColumn() {
+//                item {
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.facebook),
+//                        socialName = stringResource(id = R.string.facebook),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                }
+//                item {
+//                    SocialInforItem(
+//                        socialImage = painterResource(id = R.drawable.facebook),
+//                        socialName = stringResource(id = R.string.facebook),
+//                        modifier = Modifier
+//                            .width(110.dp)
+//                            .padding(10.dp)
+//                    )
+//                }
+//
+//            }
         }
+
     }
 }
+
 
 @Composable
 fun ImageAndName(image: Painter, description: String, name: String, modifier: Modifier = Modifier) {
@@ -118,14 +256,20 @@ fun SocialInforItem(socialImage: Painter, socialName: String, modifier: Modifier
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(5.dp)
         ) {
             Image(
                 painter = socialImage,
                 contentDescription = socialName,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier
+                    .size(60.dp)
+                    .padding(5.dp)
             )
-            Text(text = socialName)
+            Text(
+                text = socialName,
+                style = MaterialTheme.typography.h3,
+                modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 3.dp)
+            )
         }
     }
 }

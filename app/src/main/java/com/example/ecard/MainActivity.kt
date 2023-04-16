@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ecard.ui.home.HomeScreen
 import com.example.ecard.ui.theme.ECardTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
             ECardTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    HomeScreen()
                 }
             }
         }
@@ -35,6 +36,7 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     ECardTheme {
-        Greeting("Android")
+//        Greeting("Android")
+        HomeScreen()
     }
 }
