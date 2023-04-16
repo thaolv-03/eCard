@@ -65,16 +65,6 @@ fun ImageAndName(image: Painter, description: String, name: String, modifier: Mo
 }
 
 
-@Composable
-fun PersonalInformation(image: Painter, content: String, modifier: Modifier = Modifier) {
-    Column() {
-        Row() {
-            Image(painter = painterResource(R.drawable.phone), contentDescription = null)
-            Text(text = stringResource(R.string.infor_phone))
-        }
-    }
-}
-
 @Preview
 @Composable
 fun Preview1() {
