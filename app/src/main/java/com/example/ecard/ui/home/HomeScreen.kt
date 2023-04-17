@@ -1,6 +1,8 @@
 package com.example.ecard.ui.home
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,12 +12,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +25,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ecard.R
-import com.example.ecard.data.dataResource.userExample
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
 import com.example.ecard.ui.theme.ECardTheme
@@ -39,6 +39,10 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBarEdit(title = "Hồ sơ")
+        },
+        bottomBar = {
+            BottomBarEdit()
+//            Text(text = "fsf", modifier = Modifier.height(100.dp))
         }
     ) {
         LazyColumn(
@@ -53,7 +57,6 @@ fun HomeScreen(
                     description = "",
                     name = user.name,
                     modifier = Modifier
-                        .padding(it)
                         .padding(0.dp, 20.dp)
                 )
 
@@ -93,8 +96,8 @@ fun HomeScreen(
                                 .clickable { homeViewModel.onPickSocialItem(1) }
                         )
                         SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.linkedin),
-                            socialName = stringResource(id = R.string.linkedIn),
+                            socialImage = painterResource(id = R.drawable.tiktok),
+                            socialName = stringResource(id = R.string.tiktok),
                             modifier = Modifier
                                 .width(100.dp)
                                 .clickable { homeViewModel.onPickSocialItem(2) }
@@ -115,8 +118,8 @@ fun HomeScreen(
                                 .clickable { homeViewModel.onPickSocialItem(3) }
                         )
                         SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.tiktok),
-                            socialName = stringResource(id = R.string.tiktok),
+                            socialImage = painterResource(id = R.drawable.linkedin),
+                            socialName = stringResource(id = R.string.linkedIn),
                             modifier = Modifier
                                 .width(100.dp)
                                 .clickable { homeViewModel.onPickSocialItem(4) }
@@ -130,6 +133,7 @@ fun HomeScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.padding(it))
             }
         }
 
@@ -144,11 +148,8 @@ fun HomeScreen(
                 )
             }
         }
-
-
     }
 }
-
 
 @Composable
 fun ImageAndName(image: Painter, description: String, name: String, modifier: Modifier = Modifier) {
@@ -171,6 +172,58 @@ fun ImageAndName(image: Painter, description: String, name: String, modifier: Mo
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 10.dp)
         )
+    }
+}
+
+@Composable
+fun PersonalInformation(
+    phone: String,
+    email: String,
+    birthday: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        elevation = 5.dp,
+        shape = MaterialTheme.shapes.medium,
+        backgroundColor = MaterialTheme.colors.surface,
+        modifier = modifier
+    ) {
+        Column(modifier = Modifier.padding(vertical = 5.dp)) {
+            PersonalInformationItem(
+                image = painterResource(R.drawable.phone), content = stringResource(
+                    R.string.infor_phone
+                )
+            )
+            PersonalInformationItem(
+                image = painterResource(R.drawable.mail), content = stringResource(
+                    R.string.infor_email
+                )
+            )
+            PersonalInformationItem(
+                image = painterResource(R.drawable.calendar), content = stringResource(
+                    R.string.infor_birthday
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun PersonalInformationItem(image: Painter, content: String) {
+    val textStyle: TextStyle = MaterialTheme.typography.h4
+
+    Row(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = image,
+            contentDescription = null,
+            modifier = Modifier
+                .size(50.dp)
+                .padding(end = 19.dp)
+        )
+        Text(text = content, style = textStyle)
     }
 }
 
@@ -285,8 +338,6 @@ fun SocialInforItemPopup(
                 )
             }
 
-
-
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
@@ -323,18 +374,18 @@ fun SocialInforItemPopup(
             }
         }
     }
-
 }
 
-//@Preview()
-//@Composable
-//fun Preview1() {
-//    ECardTheme() {
-//        Surface(modifier = Modifier.fillMaxSize()) {
-//            HomeScreen()
-//        }
-//    }
-//}
+@Preview()
+@Composable
+fun HomeScreenPreview() {
+    ECardTheme() {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            HomeScreen()
+        }
+    }
+}
+
 @Preview()
 @Composable
 fun Preview2() {

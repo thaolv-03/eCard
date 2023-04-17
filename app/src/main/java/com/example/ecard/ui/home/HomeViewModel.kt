@@ -1,9 +1,7 @@
 package com.example.ecard.ui.home
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.ecard.data.dataResource.userExample
-import com.example.ecard.data.model.Social
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 

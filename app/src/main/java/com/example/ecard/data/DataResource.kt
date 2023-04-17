@@ -14,9 +14,9 @@ object dataResource {
         socialList = listOf(
             Social(SocialName.FACEBOOK, "Le Van Thao", "https://www.facebook.com/thaolv.03"),
             Social(SocialName.INSTAGRAM, "Le Van Thao", "https://www.facebook.com/thaolv.03"),
-            Social(SocialName.LINKEDIN, "", ""),
             Social(SocialName.TIKTOK, "", ""),
             Social(SocialName.YOUTUBE, "", ""),
+            Social(SocialName.LINKEDIN, "", ""),
             Social(SocialName.TWITTER, "", ""),
         )
 
