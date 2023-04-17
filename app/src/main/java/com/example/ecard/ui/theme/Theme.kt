@@ -7,6 +7,7 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
+
 @SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
     background = md_theme_dark_background,

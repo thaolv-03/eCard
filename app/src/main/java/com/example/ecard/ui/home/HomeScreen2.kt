@@ -29,7 +29,7 @@ fun PersonalInformation(modifier: Modifier = Modifier) {
         backgroundColor = MaterialTheme.colors.surface,
         modifier = modifier
     ) {
-        Column() {
+        Column(modifier = Modifier.padding(vertical = 5.dp)) {
             PersonalInformationItem(
                 image = painterResource(R.drawable.phone), content = stringResource(
                     R.string.infor_phone
@@ -51,10 +51,10 @@ fun PersonalInformation(modifier: Modifier = Modifier) {
 
 @Composable
 fun PersonalInformationItem(image: Painter, content: String) {
-    val textStyle: TextStyle = MaterialTheme.typography.h2
+    val textStyle: TextStyle = MaterialTheme.typography.h4
 
     Row(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

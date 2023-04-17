@@ -4,22 +4,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ecard.R
-import com.example.ecard.data.model.Social
 import com.example.ecard.ui.theme.ECardTheme
 
 @Composable
@@ -30,11 +28,14 @@ fun HomeScreen() {
         }
     ) {
         LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
         ) {
             item {
                 ImageAndName(
-                    image = painterResource(id = R.drawable.user),
+                    image = painterResource(id = R.drawable.avatar),
                     description = "",
                     name = stringResource(id = R.string.infor_name2),
                     modifier = Modifier
@@ -44,56 +45,61 @@ fun HomeScreen() {
 
                 PersonalInformation(
                     modifier = Modifier
-                        .padding(16.dp, 10.dp)
-                        .width(300.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
                 )
 
-                Row() {
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.facebook),
-                        socialName = stringResource(id = R.string.facebook),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.instagram),
-                        socialName = stringResource(id = R.string.instagram),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.linkedin),
-                        socialName = stringResource(id = R.string.linkedIn),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)
+                    ) {
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.facebook),
+                            socialName = stringResource(id = R.string.facebook),
+                            modifier = Modifier
+                                .width(100.dp)
+                        )
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.instagram),
+                            socialName = stringResource(id = R.string.instagram),
+                            modifier = Modifier
+                                .width(100.dp)
+                        )
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.linkedin),
+                            socialName = stringResource(id = R.string.linkedIn),
+                            modifier = Modifier
+                                .width(100.dp)
+                        )
+                    }
 
-                Row() {
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.youtube),
-                        socialName = stringResource(id = R.string.youtube),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.tiktok),
-                        socialName = stringResource(id = R.string.tiktok),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
-                    SocialInforItem(
-                        socialImage = painterResource(id = R.drawable.twitter),
-                        socialName = stringResource(id = R.string.twitter),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .padding(10.dp)
-                    )
+                    Row(horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)) {
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.youtube),
+                            socialName = stringResource(id = R.string.youtube),
+                            modifier = Modifier
+                                .width(100.dp)
+                        )
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.tiktok),
+                            socialName = stringResource(id = R.string.tiktok),
+                            modifier = Modifier
+                                .width(100.dp)
+                        )
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.twitter),
+                            socialName = stringResource(id = R.string.twitter),
+                            modifier = Modifier
+                                .width(100.dp)
+                        )
+                    }
                 }
             }
         }
@@ -111,47 +117,17 @@ fun ImageAndName(image: Painter, description: String, name: String, modifier: Mo
             painter = image,
             contentDescription = description,
             modifier = Modifier
-                .size(200.dp)
-                .clip(CircleShape)
-                .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                .size(180.dp)
+                .clip(RoundedCornerShape(50)),
+            contentScale = ContentScale.Crop
         )
 
         Text(
             text = name,
-            style = MaterialTheme.typography.h1,
-            textAlign = TextAlign.Center
+            style = MaterialTheme.typography.h2,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 10.dp)
         )
-    }
-
-}
-
-@Composable
-fun AddLinkedButton(text: String, modifier: Modifier = Modifier) {
-//    Button(onClick = { /*TODO*/ }) {
-//        Text(
-//            text = text,
-//            style = MaterialTheme.typography.h5
-//        )
-//    }
-    Card(elevation = 5.dp) {
-        TextButton(
-            onClick = { /*TODO*/ },
-            modifier = modifier
-                .background(
-                    MaterialTheme.colors.surface,
-                    shape = MaterialTheme.shapes.small
-                )
-                .padding(5.dp)
-        ) {
-//            Card() {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.onSurface
-            )
-//            }
-
-        }
     }
 }
 
@@ -174,23 +150,18 @@ fun SocialInforItem(socialImage: Painter, socialName: String, modifier: Modifier
             )
             Text(
                 text = socialName,
-                style = MaterialTheme.typography.h3,
+                style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 3.dp)
             )
         }
     }
 }
 
-@Preview
+@Preview()
 @Composable
 fun Preview1() {
     ECardTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
-//            ImageAndName(
-//                image = painterResource(id = R.drawable.user),
-//                description = "",
-//                name = stringResource(id = R.string.infor_name1)
-//            )
             HomeScreen()
         }
     }
