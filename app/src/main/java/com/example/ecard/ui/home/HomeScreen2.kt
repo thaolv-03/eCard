@@ -22,7 +22,7 @@ import com.example.ecard.ui.theme.Shapes
 
 
 @Composable
-fun PersonalInformation(modifier: Modifier = Modifier) {
+fun PersonalInformation(phone: String, email: String, birthday: String, modifier: Modifier = Modifier) {
     Card(
         elevation = 5.dp,
         shape = MaterialTheme.shapes.medium,
@@ -73,9 +73,9 @@ fun PersonalInformationItem(image: Painter, content: String) {
 fun DefaultPreview() {
     ECardTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
-            PersonalInformation(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+//            PersonalInformation(
+//                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+//            )
         }
     }
 
