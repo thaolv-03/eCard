@@ -12,4 +12,8 @@
     <string name="tiktok">Tiktok</string>
     <string name="youtube">Youtube</string>
     <string name="twitter">Twitter</string>
+    <string name="user_name">Tên người dùng</string>
+    <string name="link">Liên kết</string>
+    <string name="cancel">Trở lại</string>
+    <string name="access">Truy cập</string>
 </resources>
