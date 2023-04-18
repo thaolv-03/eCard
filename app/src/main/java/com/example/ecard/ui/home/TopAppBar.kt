@@ -7,18 +7,22 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TopAppBarEdit(title: String) {
+fun TopAppBarEdit(title: Int) {
     TopAppBar(
         title = {
             Text(
-                text = title,
+                text = stringResource(id = title),
                 style = MaterialTheme.typography.h1,
-                modifier = Modifier.fillMaxWidth().padding(end = 12.dp),
-                textAlign = TextAlign.Center
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 12.dp),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSecondary
             )
         },
         backgroundColor = MaterialTheme.colors.background,

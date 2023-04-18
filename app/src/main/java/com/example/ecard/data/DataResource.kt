@@ -12,7 +12,7 @@ object dataResource {
         email = "thaolv.21it@vku.udn.vn",
         birthday = "06/08/2003",
         socialList = listOf(
-            Social(SocialName.FACEBOOK, "Le Van Thao", "https://www.facebook.com/thaolv.03"),
+            Social(SocialName.FACEBOOK, "Nguyen Hoang Nhat Minh Nguyen Hoang Nhat Minh Nguyen Hoang Nhat Minh", "https://www.facebook.com/nhnminh.03"),
             Social(SocialName.INSTAGRAM, "Le Van Thao", "https://www.facebook.com/thaolv.03"),
             Social(SocialName.TIKTOK, "", ""),
             Social(SocialName.YOUTUBE, "", ""),

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">eCard</string>
+    <string name="home_screen">Hồ sơ</string>
     <string name="infor_phone">0947180074</string>
     <string name="infor_email">thaolv.21it@gmail.com</string>
     <string name="infor_birthday">06/08/2003</string>

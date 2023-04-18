@@ -33,7 +33,7 @@ val bottomNavItems = listOf(
     ),
     BottomNavItem(
         route = "edit",
-        icon = Icons.Outlined.Edit,
+        icon = Icons.Outlined.EditNote,
     ),
     BottomNavItem(
         route = "setting",

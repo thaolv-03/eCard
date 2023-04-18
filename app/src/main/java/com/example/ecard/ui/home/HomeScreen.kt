@@ -7,12 +7,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Mail
+import androidx.compose.material.icons.outlined.PhoneInTalk
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,11 +43,10 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBarEdit(title = "Hồ sơ")
+            TopAppBarEdit(title = R.string.home_screen)
         },
         bottomBar = {
             BottomBarEdit()
-//            Text(text = "fsf", modifier = Modifier.height(100.dp))
         }
     ) {
         LazyColumn(
@@ -190,17 +194,17 @@ fun PersonalInformation(
     ) {
         Column(modifier = Modifier.padding(vertical = 5.dp)) {
             PersonalInformationItem(
-                image = painterResource(R.drawable.phone), content = stringResource(
+                image = Icons.Outlined.PhoneInTalk, content = stringResource(
                     R.string.infor_phone
                 )
             )
             PersonalInformationItem(
-                image = painterResource(R.drawable.mail), content = stringResource(
+                image = Icons.Outlined.Mail, content = stringResource(
                     R.string.infor_email
                 )
             )
             PersonalInformationItem(
-                image = painterResource(R.drawable.calendar), content = stringResource(
+                image = Icons.Outlined.Event, content = stringResource(
                     R.string.infor_birthday
                 )
             )
@@ -209,7 +213,7 @@ fun PersonalInformation(
 }
 
 @Composable
-fun PersonalInformationItem(image: Painter, content: String) {
+fun PersonalInformationItem(image: ImageVector, content: String) {
     val textStyle: TextStyle = MaterialTheme.typography.h4
 
     Row(
@@ -217,7 +221,7 @@ fun PersonalInformationItem(image: Painter, content: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = image,
+            imageVector = image,
             contentDescription = null,
             modifier = Modifier
                 .size(50.dp)
@@ -275,24 +279,21 @@ fun SocialInforItemPopup(
 
     Card(
         elevation = 5.dp,
-        modifier = modifier
-            .height(400.dp),
+        modifier = modifier.height(IntrinsicSize.Min),
         shape = MaterialTheme.shapes.large
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            //        verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
-                .padding(10.dp)
-
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = social.socialName.sName,
-                style = MaterialTheme.typography.h2,
-//                modifier = Modifier
-//                    .padding(0.dp, 0.dp)
+                style = MaterialTheme.typography.h3,
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
             )
             Image(
                 painter = image,
@@ -302,35 +303,26 @@ fun SocialInforItemPopup(
                     .padding(0.dp, 10.dp)
             )
             Column(modifier = Modifier.padding(bottom = 10.dp)) {
-                Row(
+                Text(
+                    text = social.userName,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h5,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
-                        .padding(5.dp, 10.dp)
+                        .padding(horizontal = 5.dp, vertical = 5.dp)
                         .fillMaxWidth()
                         .clip(MaterialTheme.shapes.medium)
                         .background(MaterialTheme.colors.surface)
-                        .padding(15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.user_name),
-                        textAlign = TextAlign.Left,
-                        style = MaterialTheme.typography.h5,
-                        fontWeight = FontWeight.Normal,
-                    )
-                    Text(
-                        text = social.userName,
-                        textAlign = TextAlign.Right,
-                        style = MaterialTheme.typography.h5,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                        .padding(15.dp)
+                )
+
                 Text(
                     text = social.link,
                     style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(horizontal = 5.dp)
+                        .padding(horizontal = 5.dp, vertical = 5.dp)
                         .fillMaxWidth()
                         .clip(MaterialTheme.shapes.medium)
                         .background(MaterialTheme.colors.surface)
@@ -343,6 +335,7 @@ fun SocialInforItemPopup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp, 0.dp)
+                    .padding(bottom = 10.dp)
             ) {
                 Button(
                     onClick = onCancelClick,
@@ -382,16 +375,6 @@ fun HomeScreenPreview() {
     ECardTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
             HomeScreen()
-        }
-    }
-}
-
-@Preview()
-@Composable
-fun Preview2() {
-    ECardTheme() {
-        Surface(modifier = Modifier.fillMaxSize()) {
-//            SocialInforItemPopup(social = userExample.socialList[0])
         }
     }
 }
