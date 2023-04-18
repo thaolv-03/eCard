@@ -19,6 +19,5 @@ object dataResource {
             Social(SocialName.LINKEDIN, "Thao Le Van", "https://www.linkedin.com/in/thaolv03/"),
             Social(SocialName.TWITTER, "Thao Le Van", "https://twitter.com/thaolv03"),
         )
-
     )
 }
