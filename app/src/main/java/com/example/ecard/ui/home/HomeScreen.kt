@@ -1,5 +1,6 @@
 package com.example.ecard.ui.home
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Mail
@@ -19,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -136,6 +139,35 @@ fun HomeScreen(
                                 .clickable { homeViewModel.onPickSocialItem(5) }
                         )
                     }
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp)
+                    ) {
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.youtube),
+                            socialName = stringResource(id = R.string.youtube),
+                            modifier = Modifier
+                                .width(100.dp)
+                                .clickable { homeViewModel.onPickSocialItem(3) }
+                        )
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.linkedin),
+                            socialName = stringResource(id = R.string.linkedIn),
+                            modifier = Modifier
+                                .width(100.dp)
+                                .clickable { homeViewModel.onPickSocialItem(4) }
+                        )
+                        SocialInforItem(
+                            socialImage = painterResource(id = R.drawable.twitter),
+                            socialName = stringResource(id = R.string.twitter),
+                            modifier = Modifier
+                                .width(100.dp)
+                                .clickable { homeViewModel.onPickSocialItem(5) }
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.padding(it))
             }
@@ -148,7 +180,10 @@ fun HomeScreen(
             ) {
                 SocialInforItemPopup(
                     social = user.currentPickSocial,
-                    onCancelClick = { homeViewModel.onCancelOrDismissClickPopup() }
+                    onCancelClick = { homeViewModel.onCancelOrDismissClickPopup() },
+                    onAccessClick = { context, url ->
+                        homeViewModel.onClickAccess(context, url)
+                    }
                 )
             }
         }
@@ -266,8 +301,11 @@ fun SocialInforItem(
 fun SocialInforItemPopup(
     social: Social,
     onCancelClick: () -> Unit,
+    onAccessClick: (Context, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
     val image = when (social.socialName) {
         SocialName.FACEBOOK -> painterResource(id = R.drawable.facebook)
         SocialName.INSTAGRAM -> painterResource(id = R.drawable.instagram)
@@ -351,7 +389,7 @@ fun SocialInforItemPopup(
                 Spacer(modifier = Modifier.width(20.dp))
 
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { onAccessClick(context, social.link) },
                     modifier = Modifier
                         .weight(1f),
                     colors = ButtonDefaults.buttonColors(

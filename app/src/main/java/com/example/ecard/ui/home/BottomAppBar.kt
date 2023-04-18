@@ -1,16 +1,22 @@
 package com.example.ecard.ui.home
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class BottomNavItem(
@@ -44,10 +50,15 @@ val bottomNavItems = listOf(
 @Composable
 fun BottomBarEdit() {
     NavigationBar(
-        modifier = Modifier.height(70.dp),
-        containerColor = MaterialTheme.colors.background
+        modifier = Modifier
+            .height(70.dp).shadow(elevation = 10.dp),
+        containerColor = MaterialTheme.colors.background,
+
     ) {
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             val navigationBarItemColors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colors.onSurface,
                 indicatorColor = MaterialTheme.colors.surface,
