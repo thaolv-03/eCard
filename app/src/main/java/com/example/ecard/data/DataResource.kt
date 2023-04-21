@@ -12,12 +12,12 @@ object dataResource {
         email = "thaolv.21it@vku.udn.vn",
         birthday = "06/08/2003",
         socialList = listOf(
-            Social(SocialName.FACEBOOK, "Le Van Thao", "https://www.facebook.com/thaolv.03"),
-            Social(SocialName.INSTAGRAM, "Le Van Thao", "https://www.instagram.com/_thaolv_"),
-            Social(SocialName.TIKTOK, "thaolv.03", "https://www.tiktok.com/@thaolv.03"),
-            Social(SocialName.YOUTUBE, "Thao Le Van", "https://www.youtube.com/@thaolevan2760"),
-            Social(SocialName.LINKEDIN, "Thao Le Van", "https://www.linkedin.com/in/thaolv03/"),
-            Social(SocialName.TWITTER, "Thao Le Van", "https://twitter.com/thaolv03"),
+            Social(socialName = SocialName.FACEBOOK, userName = "Le Van Thao", link = "https://www.facebook.com/thaolv.03"),
+            Social(socialName = SocialName.INSTAGRAM, userName = "Le Van Thao", link = "https://www.instagram.com/_thaolv_"),
+            Social(socialName = SocialName.TIKTOK, userName = "thaolv.03", link = "https://www.tiktok.com/@thaolv.03"),
+            Social(socialName = SocialName.YOUTUBE, userName = "Thao Le Van", link = "https://www.youtube.com/@thaolevan2760"),
+            Social(socialName = SocialName.LINKEDIN, userName = "Thao Le Van", link = "https://www.linkedin.com/in/thaolv03/"),
+            Social(socialName = SocialName.TWITTER, userName = "Thao Le Van", link = "https://twitter.com/thaolv03"),
         )
     )
 }

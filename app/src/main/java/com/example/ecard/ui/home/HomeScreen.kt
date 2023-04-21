@@ -32,14 +32,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ecard.R
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
+import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.theme.ECardTheme
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel()
+    homeViewModel: HomeViewModel = viewModel(factory = Factory)
 ) {
     val uiState = homeViewModel.uiState.collectAsState()
     val user = uiState.value
@@ -229,19 +231,14 @@ fun PersonalInformation(
     ) {
         Column(modifier = Modifier.padding(vertical = 5.dp)) {
             PersonalInformationItem(
-                image = Icons.Outlined.PhoneInTalk, content = stringResource(
-                    R.string.infor_phone
-                )
+                image = Icons.Outlined.PhoneInTalk, content = phone
             )
             PersonalInformationItem(
-                image = Icons.Outlined.Mail, content = stringResource(
-                    R.string.infor_email
-                )
+                image = Icons.Outlined.Mail, content = email
+
             )
             PersonalInformationItem(
-                image = Icons.Outlined.Event, content = stringResource(
-                    R.string.infor_birthday
-                )
+                image = Icons.Outlined.Event, content = birthday
             )
         }
     }

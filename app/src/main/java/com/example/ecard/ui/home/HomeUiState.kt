@@ -9,5 +9,5 @@ data class HomeUiState(
     val email: String = "",
     val birthday: String = "",
     val image: Painter? = null,
-    val currentPickSocial: Social? = null
+    val socialList: List<Social>? = null
 )
