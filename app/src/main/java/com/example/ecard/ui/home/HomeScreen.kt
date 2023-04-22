@@ -175,13 +175,13 @@ fun HomeScreen(
             }
         }
 
-        if (user.currentPickSocial != null) {
+        if (homeViewModel.currentPickSocial.value != null) {
             Dialog(
                 onDismissRequest = { homeViewModel.onCancelOrDismissClickPopup() },
                 properties = DialogProperties(false)
             ) {
                 SocialInforItemPopup(
-                    social = user.currentPickSocial,
+                    social = homeViewModel.currentPickSocial.value!!,
                     onCancelClick = { homeViewModel.onCancelOrDismissClickPopup() },
                     onAccessClick = { context, url ->
                         homeViewModel.onClickAccess(context, url)
@@ -304,12 +304,12 @@ fun SocialInforItemPopup(
     val context = LocalContext.current
 
     val image = when (social.socialName) {
-        SocialName.FACEBOOK -> painterResource(id = R.drawable.facebook)
-        SocialName.INSTAGRAM -> painterResource(id = R.drawable.instagram)
-        SocialName.LINKEDIN -> painterResource(id = R.drawable.linkedin)
-        SocialName.TIKTOK -> painterResource(id = R.drawable.tiktok)
-        SocialName.YOUTUBE -> painterResource(id = R.drawable.youtube)
-        SocialName.TWITTER -> painterResource(id = R.drawable.twitter)
+        SocialName.FACEBOOK.sName -> painterResource(id = R.drawable.facebook)
+        SocialName.INSTAGRAM.sName -> painterResource(id = R.drawable.instagram)
+        SocialName.LINKEDIN.sName -> painterResource(id = R.drawable.linkedin)
+        SocialName.TIKTOK.sName -> painterResource(id = R.drawable.tiktok)
+        SocialName.YOUTUBE.sName -> painterResource(id = R.drawable.youtube)
+        else -> painterResource(id = R.drawable.twitter)
     }
 
     Card(
@@ -325,14 +325,14 @@ fun SocialInforItemPopup(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = social.socialName.sName,
+                text = social.socialName,
                 style = MaterialTheme.typography.h3,
                 modifier = Modifier
                     .padding(vertical = 5.dp)
             )
             Image(
                 painter = image,
-                contentDescription = social.socialName.sName,
+                contentDescription = social.socialName,
                 modifier = Modifier
                     .size(110.dp)
                     .padding(0.dp, 10.dp)

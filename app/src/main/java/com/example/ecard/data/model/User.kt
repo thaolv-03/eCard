@@ -13,12 +13,12 @@ data class User(
     var birthday: String? = null,
     @Ignore var image: Painter? = null,
     @Ignore var socialList: List<Social> = listOf<Social>(
-        Social(socialName = SocialName.FACEBOOK, userName = "", link = ""),
-        Social(socialName = SocialName.INSTAGRAM, userName = "", link = ""),
-        Social(socialName = SocialName.LINKEDIN, userName = "", link = ""),
-        Social(socialName = SocialName.TIKTOK, userName = "", link = ""),
-        Social(socialName = SocialName.YOUTUBE, userName = "", link = ""),
-        Social(socialName = SocialName.TWITTER, userName = "", link = ""),
+        Social(socialName = SocialName.FACEBOOK.sName, userName = "", link = ""),
+        Social(socialName = SocialName.INSTAGRAM.sName, userName = "", link = ""),
+        Social(socialName = SocialName.LINKEDIN.sName, userName = "", link = ""),
+        Social(socialName = SocialName.TIKTOK.sName, userName = "", link = ""),
+        Social(socialName = SocialName.YOUTUBE.sName, userName = "", link = ""),
+        Social(socialName = SocialName.TWITTER.sName, userName = "", link = ""),
     )
 ) {
     constructor() : this(0) {}
@@ -29,7 +29,7 @@ data class Social(
     @PrimaryKey(autoGenerate = true)
     var socialId: Int = 0,
     @ColumnInfo(name = "social_name")
-    var socialName: SocialName,
+    var socialName: String,
     @ColumnInfo(name = "user_name")
     var userName: String,
     var link: String,

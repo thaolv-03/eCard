@@ -6,6 +6,7 @@ import com.example.ecard.data.model.User
 import com.example.ecard.data.model.UserWithSocialList
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface SocialDao {
     @Query("SELECT * from social")
     fun getAllSocial(): Flow<List<Social>>

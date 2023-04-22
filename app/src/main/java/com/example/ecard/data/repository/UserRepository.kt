@@ -12,7 +12,7 @@ interface UserRepository {
 
     fun getUserStream(id: Int): Flow<User?>
 
-    fun getUserWithSocialList(): Flow<List<UserWithSocialList>>
+    fun getUserWithSocialList(userId: Int): Flow<UserWithSocialList>
 
     suspend fun insertUser(user: User)
 

@@ -3,10 +3,13 @@ package com.example.ecard.ui.home
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecard.data.dataResource
+import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.UserRepository
 import kotlinx.coroutines.flow.*
@@ -18,14 +21,15 @@ class HomeViewModel(userRepository: UserRepository) : ViewModel() {
     private val user: User = User()
 
     val isPopUpSocialItem = mutableStateOf(false)
-
+    var currentPickSocial:MutableState<Social?> = mutableStateOf(null)
     init {
         viewModelScope.launch {
-//            user =
+            userRepository.insertUser(dataResource.userExample)
+
         }
     }
 
-    //    val uiState = MutableStateFlow(
+//    val uiState = MutableStateFlow(
 //        HomeUiState(
 //            name = user.name ?: "",
 //            birthday = user.birthday ?: "",
@@ -35,15 +39,16 @@ class HomeViewModel(userRepository: UserRepository) : ViewModel() {
 //        )
 //    )
     val uiState: StateFlow<HomeUiState> =
-        userRepository.getUserStream(0)
+        userRepository.getUserWithSocialList(0)
             .filterNotNull()
             .map {
                 HomeUiState(
-                    name = it.name ?: "",
-                    birthday = it.birthday ?: "",
-                    phone = it.phone ?: "",
-                    email = it.email ?: "",
-                    image = it.image,
+                    name = it.user.name ?: "",
+                    birthday = it.user.birthday ?: "",
+                    phone = it.user.phone ?: "",
+                    email = it.user.email ?: "",
+                    image = it.user.image,
+                    socialList = it.socialList
                 )
             }.stateIn(
                 scope = viewModelScope,
@@ -56,12 +61,11 @@ class HomeViewModel(userRepository: UserRepository) : ViewModel() {
 //            it.copy(currentPickSocial = user.socialList[socialId])
 //        }
 //        uiState.value = uiState.value.copy(currentPickSocial = user.socialList[socialId])
+        currentPickSocial.value = uiState.value.socialList?.get(socialId)
     }
 
     fun onCancelOrDismissClickPopup() {
-//        uiState.update {
-//            it.copy(currentPickSocial = null)
-//        }
+        currentPickSocial.value = null
     }
 
     fun onClickAccess(context: Context, url: String) {

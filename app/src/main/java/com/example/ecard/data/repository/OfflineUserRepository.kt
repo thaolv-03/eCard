@@ -10,7 +10,7 @@ class OfflineUserRepository(private val userDao: UserDao) : UserRepository {
 
     override fun getUserStream(id: Int): Flow<User?> = userDao.getUser(id)
 
-    override fun getUserWithSocialList(): Flow<List<UserWithSocialList>> = userDao.getUserWithSocialList()
+    override fun getUserWithSocialList(userId: Int): Flow<UserWithSocialList> = userDao.getUserWithSocialList(userId)
 
     override suspend fun insertUser(user: User) = userDao.insert(user)
 

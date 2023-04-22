@@ -15,8 +15,8 @@ interface UserDao {
     fun getUser(id: Int): Flow<User>
 
     @Transaction
-    @Query("SELECT * FROM User")
-    fun getUserWithSocialList(): Flow<List<UserWithSocialList>>
+    @Query("SELECT * FROM user WHERE userId = :userId")
+    fun getUserWithSocialList(userId: Int): Flow<UserWithSocialList>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(user: User)
