@@ -17,4 +17,7 @@
     <string name="link">Liên kết</string>
     <string name="cancel">Trở lại</string>
     <string name="access">Truy cập</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="place_holder_user_name">Nhập tên người dùng</string>
+    <string name="save">Lưu</string>
 </resources>

@@ -71,12 +71,12 @@ class HomeViewModel(userRepository: UserRepository) : ViewModel() {
     }
 
     fun onClickAccess(context: Context, url: String) {
+        val urlEdit =
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             "http://$url"
-        }
+        } else url
 
-
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlEdit))
         startActivity(context, browserIntent, null)
     }
 

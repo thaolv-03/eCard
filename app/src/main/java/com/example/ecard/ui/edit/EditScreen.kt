@@ -1,4 +1,4 @@
-package com.example.ecard.ui.home
+package com.example.ecard.ui.edit
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -7,8 +7,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Mail
@@ -16,37 +17,45 @@ import androidx.compose.material.icons.outlined.PhoneInTalk
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ecard.R
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
+import com.example.ecard.ui.home.BottomBarEdit
+import com.example.ecard.ui.home.HomeViewModel
+import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.ecard.ui.theme.ECardTheme
 
-object HomeDestination : NavigationDestination {
-    override val route = "home"
-    override val titleRes = R.string.app_name
+object EditDestination : NavigationDestination {
+    override val route = "edit"
+    override val titleRes = R.string.edit
 }
 
 @Composable
-fun HomeScreen(
+fun EditScreen(
     homeViewModel: HomeViewModel = viewModel(factory = Factory)
 ) {
     val uiState = homeViewModel.uiState.collectAsState()
@@ -54,7 +63,7 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBarEdit(title = R.string.home_screen)
+            TopAppBarEdit(title = R.string.edit)
         },
         bottomBar = {
             BottomBarEdit()
@@ -155,25 +164,25 @@ fun HomeScreen(
                             .padding(vertical = 5.dp)
                     ) {
                         SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.youtube),
-                            socialName = stringResource(id = R.string.youtube),
+                            socialImage = painterResource(id = R.drawable.facebook),
+                            socialName = stringResource(id = R.string.facebook),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(3) }
+                                .clickable { homeViewModel.onPickSocialItem(0) }
                         )
                         SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.linkedin),
-                            socialName = stringResource(id = R.string.linkedIn),
+                            socialImage = painterResource(id = R.drawable.instagram),
+                            socialName = stringResource(id = R.string.instagram),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(4) }
+                                .clickable { homeViewModel.onPickSocialItem(1) }
                         )
                         SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.twitter),
-                            socialName = stringResource(id = R.string.twitter),
+                            socialImage = painterResource(id = R.drawable.tiktok),
+                            socialName = stringResource(id = R.string.tiktok),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(5) }
+                                .clickable { homeViewModel.onPickSocialItem(2) }
                         )
                     }
                 }
@@ -186,11 +195,11 @@ fun HomeScreen(
                 onDismissRequest = { homeViewModel.onCancelOrDismissClickPopup() },
                 properties = DialogProperties(false)
             ) {
-                SocialInforItemPopup(
+
+                SocialInforItemEditPopup(
                     social = homeViewModel.currentPickSocial.value!!,
                     onCancelClick = { homeViewModel.onCancelOrDismissClickPopup() },
-                    onAccessClick = { context, url ->
-                        homeViewModel.onClickAccess(context, url)
+                    onSaveClick = {
                     }
                 )
             }
@@ -300,14 +309,17 @@ fun SocialInforItem(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SocialInforItemPopup(
+fun SocialInforItemEditPopup(
     social: Social,
     onCancelClick: () -> Unit,
-    onAccessClick: (Context, String) -> Unit,
+    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     val image = when (social.socialName) {
         SocialName.FACEBOOK.sName -> painterResource(id = R.drawable.facebook)
@@ -344,30 +356,22 @@ fun SocialInforItemPopup(
                     .padding(0.dp, 10.dp)
             )
             Column(modifier = Modifier.padding(bottom = 10.dp)) {
-                Text(
-                    text = social.userName,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h5,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp, vertical = 5.dp)
-                        .fillMaxWidth()
-                        .clip(MaterialTheme.shapes.medium)
-                        .background(MaterialTheme.colors.surface)
-                        .padding(15.dp)
+                OutLinedTextFieldEdit(
+                    value = social.userName,
+                    onValueChange = {},
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions()
                 )
-
-                Text(
-                    text = social.link,
-                    style = MaterialTheme.typography.h5,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp, vertical = 5.dp)
-                        .fillMaxWidth()
-                        .clip(MaterialTheme.shapes.medium)
-                        .background(MaterialTheme.colors.surface)
-                        .padding(15.dp),
+                OutLinedTextFieldEdit(
+                    value = social.link,
+                    onValueChange = {},
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                    ),
                 )
             }
 
@@ -392,7 +396,7 @@ fun SocialInforItemPopup(
                 Spacer(modifier = Modifier.width(20.dp))
 
                 Button(
-                    onClick = { onAccessClick(context, social.link) },
+                    onClick = {  },
                     modifier = Modifier
                         .weight(1f),
                     colors = ButtonDefaults.buttonColors(
@@ -400,7 +404,7 @@ fun SocialInforItemPopup(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.access),
+                        text = stringResource(id = R.string.save),
                         style = MaterialTheme.typography.h6,
                         color = MaterialTheme.colors.secondary
                     )
@@ -410,12 +414,54 @@ fun SocialInforItemPopup(
     }
 }
 
+@Composable
+fun OutLinedTextFieldEdit(
+    value: String,
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        textStyle = MaterialTheme.typography.h5.copy(textAlign = TextAlign.Center),
+        shape = MaterialTheme.shapes.medium,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            cursorColor = Color.Black,
+            unfocusedBorderColor = MaterialTheme.colors.surface,
+            focusedBorderColor = Color.Gray,
+        ),
+        placeholder = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.place_holder_user_name),
+                    style = MaterialTheme.typography.h5.copy(
+                        fontWeight = FontWeight.Normal
+                    ),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        modifier = Modifier
+            .padding(horizontal = 5.dp, vertical = 5.dp)
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colors.surface)
+    )
+}
+
 @Preview()
 @Composable
 fun HomeScreenPreview() {
     ECardTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
-            HomeScreen()
+            EditScreen()
         }
     }
 }

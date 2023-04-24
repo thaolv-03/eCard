@@ -27,6 +27,7 @@ abstract class ECardDatabase : RoomDatabase() {
                      * permanently deletes all data from the tables in your database when it
                      * attempts to perform a migration with no defined migration path.
                      */
+                    .createFromAsset("databases/ecard_database.db")
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
