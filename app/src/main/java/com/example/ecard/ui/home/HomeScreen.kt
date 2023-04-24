@@ -175,7 +175,7 @@ fun HomeScreen(
             }
         }
 
-        if (homeViewModel.currentPickSocial.value != null) {
+        if (homeViewModel.isPopUpSocialItem.value) {
             Dialog(
                 onDismissRequest = { homeViewModel.onCancelOrDismissClickPopup() },
                 properties = DialogProperties(false)

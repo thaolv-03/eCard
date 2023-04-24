@@ -40,7 +40,7 @@ data class UserWithSocialList(
     @Embedded val user: User,
     @Relation(
         parentColumn = "userId",
-        entityColumn = "socialId"
+        entityColumn = "userId"
     )
     val socialList: List<Social>
 )

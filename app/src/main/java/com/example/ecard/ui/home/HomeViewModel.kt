@@ -21,7 +21,7 @@ class HomeViewModel(userRepository: UserRepository) : ViewModel() {
     private val user: User = User()
 
     val isPopUpSocialItem = mutableStateOf(false)
-    var currentPickSocial:MutableState<Social?> = mutableStateOf(null)
+    val currentPickSocial:MutableState<Social?> = mutableStateOf(null)
     init {
         viewModelScope.launch {
             userRepository.insertUser(dataResource.userExample)
@@ -62,10 +62,12 @@ class HomeViewModel(userRepository: UserRepository) : ViewModel() {
 //        }
 //        uiState.value = uiState.value.copy(currentPickSocial = user.socialList[socialId])
         currentPickSocial.value = uiState.value.socialList?.get(socialId)
+        isPopUpSocialItem.value = true
     }
 
     fun onCancelOrDismissClickPopup() {
-        currentPickSocial.value = null
+//        currentPickSocial.value = null
+        isPopUpSocialItem.value = false
     }
 
     fun onClickAccess(context: Context, url: String) {
