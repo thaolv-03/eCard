@@ -1,7 +1,5 @@
-package com.example.ecard.ui.home
+package com.example.ecard.ui
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -9,15 +7,12 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import com.example.ecard.ui.edit.EditDestination
+import com.example.ecard.ui.home.HomeDestination
 
 data class BottomNavItem(
     val route: String,
@@ -26,7 +21,7 @@ data class BottomNavItem(
 
 val bottomNavItems = listOf(
     BottomNavItem(
-        route = "home",
+        route = HomeDestination.route,
         icon = Icons.Outlined.Home,
     ),
     BottomNavItem(
@@ -38,7 +33,7 @@ val bottomNavItems = listOf(
         icon = Icons.Outlined.QrCodeScanner,
     ),
     BottomNavItem(
-        route = "edit",
+        route = EditDestination.route,
         icon = Icons.Outlined.EditNote,
     ),
     BottomNavItem(
@@ -48,10 +43,14 @@ val bottomNavItems = listOf(
 )
 
 @Composable
-fun BottomBarEdit() {
+fun BottomBarEdit(
+    currentDestination: NavDestination? = null,
+    navigateTo: (String) -> Unit
+) {
     NavigationBar(
         modifier = Modifier
-            .height(70.dp).shadow(elevation = 10.dp),
+            .height(70.dp)
+            .shadow(elevation = 10.dp),
         containerColor = MaterialTheme.colors.background,
 
     ) {
@@ -67,8 +66,9 @@ fun BottomBarEdit() {
 
             bottomNavItems.forEach {
                 NavigationBarItem(
-                    selected = it.route == "home",
-                    onClick = { },
+                    selected = it.route == (currentDestination?.route
+                        ?: false),
+                    onClick = { navigateTo(it.route) },
                     icon = {
                         Icon(
                             imageVector = it.icon,

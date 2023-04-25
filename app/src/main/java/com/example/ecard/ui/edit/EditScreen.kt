@@ -1,6 +1,5 @@
 package com.example.ecard.ui.edit
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -39,12 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination
 import com.example.ecard.R
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
-import com.example.ecard.ui.home.BottomBarEdit
+import com.example.ecard.ui.BottomBarEdit
 import com.example.ecard.ui.home.HomeViewModel
 import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.ecard.ui.theme.ECardTheme
@@ -56,7 +55,9 @@ object EditDestination : NavigationDestination {
 
 @Composable
 fun EditScreen(
-    homeViewModel: HomeViewModel = viewModel(factory = Factory)
+    homeViewModel: HomeViewModel = viewModel(factory = Factory),
+    currentDestination: NavDestination?,
+    navigateTo: (String) -> Unit
 ) {
     val uiState = homeViewModel.uiState.collectAsState()
     val user = uiState.value
@@ -66,7 +67,7 @@ fun EditScreen(
             TopAppBarEdit(title = R.string.edit)
         },
         bottomBar = {
-            BottomBarEdit()
+            BottomBarEdit(navigateTo = navigateTo, currentDestination = currentDestination)
         }
     ) {
         LazyColumn(
@@ -461,7 +462,7 @@ fun OutLinedTextFieldEdit(
 fun HomeScreenPreview() {
     ECardTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
-            EditScreen()
+            EditScreen(navigateTo = {}, currentDestination = null)
         }
     }
 }

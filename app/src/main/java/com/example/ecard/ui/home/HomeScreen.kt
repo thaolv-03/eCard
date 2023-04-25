@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Mail
@@ -32,12 +31,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.NavDestination
 import com.example.ecard.R
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
+import com.example.ecard.ui.BottomBarEdit
 import com.example.ecard.ui.theme.ECardTheme
 
 object HomeDestination : NavigationDestination {
@@ -47,7 +47,9 @@ object HomeDestination : NavigationDestination {
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel(factory = Factory)
+    homeViewModel: HomeViewModel = viewModel(factory = Factory),
+    currentDestination: NavDestination?,
+    navigateTo: (String) -> Unit
 ) {
     val uiState = homeViewModel.uiState.collectAsState()
     val user = uiState.value
@@ -57,7 +59,7 @@ fun HomeScreen(
             TopAppBarEdit(title = R.string.home_screen)
         },
         bottomBar = {
-            BottomBarEdit()
+            BottomBarEdit(navigateTo = navigateTo, currentDestination = currentDestination)
         }
     ) {
         LazyColumn(
@@ -415,7 +417,7 @@ fun SocialInforItemPopup(
 fun HomeScreenPreview() {
     ECardTheme() {
         Surface(modifier = Modifier.fillMaxSize()) {
-            HomeScreen()
+            HomeScreen(navigateTo = {}, currentDestination = null)
         }
     }
 }
