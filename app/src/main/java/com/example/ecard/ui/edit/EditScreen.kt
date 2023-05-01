@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.PhoneInTalk
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -44,9 +45,10 @@ import com.example.ecard.data.model.SocialName
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.BottomBarEdit
-import com.example.ecard.ui.home.HomeViewModel
 import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.ecard.ui.theme.ECardTheme
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 object EditDestination : NavigationDestination {
     override val route = "edit"
@@ -55,12 +57,14 @@ object EditDestination : NavigationDestination {
 
 @Composable
 fun EditScreen(
-    homeViewModel: HomeViewModel = viewModel(factory = Factory),
+    editViewModel: EditViewModel = viewModel(factory = Factory),
     currentDestination: NavDestination?,
     navigateTo: (String) -> Unit
 ) {
-    val uiState = homeViewModel.uiState.collectAsState()
+    val uiState = editViewModel.uiState.collectAsState()
     val user = uiState.value
+
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -111,21 +115,21 @@ fun EditScreen(
                             socialName = stringResource(id = R.string.facebook),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(0) }
+                                .clickable { editViewModel.onPickSocialItem(0) }
                         )
                         SocialInforItem(
                             socialImage = painterResource(id = R.drawable.instagram),
                             socialName = stringResource(id = R.string.instagram),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(1) }
+                                .clickable { editViewModel.onPickSocialItem(1) }
                         )
                         SocialInforItem(
                             socialImage = painterResource(id = R.drawable.tiktok),
                             socialName = stringResource(id = R.string.tiktok),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(2) }
+                                .clickable { editViewModel.onPickSocialItem(2) }
                         )
                     }
 
@@ -140,21 +144,21 @@ fun EditScreen(
                             socialName = stringResource(id = R.string.youtube),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(3) }
+                                .clickable { editViewModel.onPickSocialItem(3) }
                         )
                         SocialInforItem(
                             socialImage = painterResource(id = R.drawable.linkedin),
                             socialName = stringResource(id = R.string.linkedIn),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(4) }
+                                .clickable { editViewModel.onPickSocialItem(4) }
                         )
                         SocialInforItem(
                             socialImage = painterResource(id = R.drawable.twitter),
                             socialName = stringResource(id = R.string.twitter),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(5) }
+                                .clickable { editViewModel.onPickSocialItem(5) }
                         )
                     }
 
@@ -169,21 +173,21 @@ fun EditScreen(
                             socialName = stringResource(id = R.string.facebook),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(0) }
+                                .clickable { editViewModel.onPickSocialItem(0) }
                         )
                         SocialInforItem(
                             socialImage = painterResource(id = R.drawable.instagram),
                             socialName = stringResource(id = R.string.instagram),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(1) }
+                                .clickable { editViewModel.onPickSocialItem(1) }
                         )
                         SocialInforItem(
                             socialImage = painterResource(id = R.drawable.tiktok),
                             socialName = stringResource(id = R.string.tiktok),
                             modifier = Modifier
                                 .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(2) }
+                                .clickable { editViewModel.onPickSocialItem(2) }
                         )
                     }
                 }
@@ -191,16 +195,24 @@ fun EditScreen(
             }
         }
 
-        if (homeViewModel.isPopUpSocialItem.value) {
+        if (editViewModel.isPopUpSocialItem.value) {
             Dialog(
-                onDismissRequest = { homeViewModel.onCancelOrDismissClickPopup() },
+                onDismissRequest = { editViewModel.onCancelOrDismissClickPopup() },
                 properties = DialogProperties(false)
             ) {
-
                 SocialInforItemEditPopup(
-                    social = homeViewModel.currentPickSocial.value!!,
-                    onCancelClick = { homeViewModel.onCancelOrDismissClickPopup() },
+                    social = editViewModel.currentPickSocial.value!!,
+                    onCancelClick = { editViewModel.onCancelOrDismissClickPopup() },
                     onSaveClick = {
+                        coroutineScope.launch {
+                            editViewModel.onPopUpSocialItemSaveClick()
+                        }
+                    },
+                    onUserNameChange = {
+                        editViewModel.onPopUpSocialItemUserNameChange(it)
+                    },
+                    onLinkChange = {
+                        editViewModel.onPickSocialItemLinkChange(it)
                     }
                 )
             }
@@ -316,6 +328,8 @@ fun SocialInforItemEditPopup(
     social: Social,
     onCancelClick: () -> Unit,
     onSaveClick: () -> Unit,
+    onUserNameChange: (String) -> Unit,
+    onLinkChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -359,7 +373,7 @@ fun SocialInforItemEditPopup(
             Column(modifier = Modifier.padding(bottom = 10.dp)) {
                 OutLinedTextFieldEdit(
                     value = social.userName,
-                    onValueChange = {},
+                    onValueChange = onUserNameChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
                     ),
@@ -367,7 +381,7 @@ fun SocialInforItemEditPopup(
                 )
                 OutLinedTextFieldEdit(
                     value = social.link,
-                    onValueChange = {},
+                    onValueChange = onLinkChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
                     ),
@@ -397,7 +411,7 @@ fun SocialInforItemEditPopup(
                 Spacer(modifier = Modifier.width(20.dp))
 
                 Button(
-                    onClick = {  },
+                    onClick = onSaveClick,
                     modifier = Modifier
                         .weight(1f),
                     colors = ButtonDefaults.buttonColors(

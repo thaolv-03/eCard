@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ecard.ECardApplication
+import com.example.ecard.ui.edit.EditViewModel
 import com.example.ecard.ui.home.HomeViewModel
 
 object AppViewModelProvider {
@@ -15,6 +16,13 @@ object AppViewModelProvider {
         initializer {
             HomeViewModel(
                 eCardApplication().container.userRepository
+            )
+        }
+
+        initializer {
+            EditViewModel(
+                eCardApplication().container.userRepository,
+                eCardApplication().container.socialRepository
             )
         }
 

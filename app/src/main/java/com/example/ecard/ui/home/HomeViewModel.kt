@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
-class HomeViewModel(userRepository: UserRepository) : ViewModel() {
+class HomeViewModel(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val user: User = User()
 
