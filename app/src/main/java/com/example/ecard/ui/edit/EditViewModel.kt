@@ -5,22 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecard.data.model.Social
-import com.example.ecard.data.repository.OfflineSocialRepository
-import com.example.ecard.data.repository.OfflineUserRepository
+import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.SocialRepository
 import com.example.ecard.data.repository.UserRepository
-import com.example.ecard.ui.home.HomeUiState
-import com.example.ecard.ui.home.HomeViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 
 class EditViewModel(
     private val userRepository: UserRepository,
@@ -29,6 +24,9 @@ class EditViewModel(
 
     val isPopUpSocialItem = mutableStateOf(false)
     val currentPickSocial: MutableState<Social?> = mutableStateOf(null)
+
+    val isPopUpInforItem = mutableStateOf(false)
+    val currentPickInfor: MutableState<User?> = mutableStateOf(null)
 
     val uiState: StateFlow<EditUiState> =
         userRepository.getUserWithSocialList(0)
@@ -58,10 +56,9 @@ class EditViewModel(
 //                uiState.value = it
 //            }
 //        }
-
-
     }
 
+    // Social
     fun onPickSocialItem(socialId: Int) {
         currentPickSocial.value = uiState.value.socialList?.get(socialId)
         isPopUpSocialItem.value = true
@@ -81,14 +78,62 @@ class EditViewModel(
 
     fun onPopUpSocialItemUserNameChange(newUserName: String) {
         currentPickSocial.value = currentPickSocial.value?.copy(userName = newUserName)
-
     }
 
     fun onPickSocialItemLinkChange(newLink: String) {
         currentPickSocial.value = currentPickSocial.value?.copy(link = newLink)
     }
 
+    // Information
+    fun onPickInforItem() {
+        currentPickInfor.value = uiState.value.let {
+            it.toUser(it)
+        }
+        isPopUpInforItem.value = true
+    }
+
+    fun onCancelOrDismissClickInforPopup() {
+        isPopUpInforItem.value = false
+    }
+
+    suspend fun onPopUpInforItemSaveClick() {
+        currentPickInfor.value?.also {
+            userRepository.updateUser(it)
+        }
+
+        onCancelOrDismissClickInforPopup()
+    }
+
+    fun onPopUpInforItemNameChange(newName: String) {
+        currentPickInfor.value = currentPickInfor.value?.copy(name = newName)
+    }
+    fun onPopUpInforItemPhoneChange(newPhone: String) {
+        currentPickInfor.value = currentPickInfor.value?.copy(phone = newPhone)
+    }
+    fun onPopUpInforItemEmailChange(newEmail: String) {
+        currentPickInfor.value = currentPickInfor.value?.copy(email = newEmail)
+    }
+    fun onPopUpInforItemBirthdayChange(newBirthday: LocalDate) {
+        val newBirthdayString = localDateToDateString(newBirthday)
+
+        currentPickInfor.value = currentPickInfor.value?.copy(birthday = newBirthdayString)
+    }
+
+
+
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
+}
+fun dateStringToLocalDate(dateString: String): LocalDate {
+    val dateArr = dateString.split("/")
+    val day = dateArr[0].toInt()
+    val month = dateArr[1].toInt()
+    val year = dateArr[2].toInt()
+
+    return LocalDate.of(year, month, day)
+}
+fun localDateToDateString(localDate: LocalDate): String {
+    val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return localDate.format(dateFormat)
 }

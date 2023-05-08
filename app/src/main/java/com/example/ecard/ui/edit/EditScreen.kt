@@ -13,8 +13,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.PhoneInTalk
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -42,13 +45,20 @@ import androidx.navigation.NavDestination
 import com.example.ecard.R
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
+import com.example.ecard.data.model.User
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.BottomBarEdit
+import com.example.ecard.ui.home.ImageAndName
 import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.ecard.ui.theme.ECardTheme
-import kotlinx.coroutines.coroutineScope
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 object EditDestination : NavigationDestination {
     override val route = "edit"
@@ -96,6 +106,9 @@ fun EditScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
+                        .clickable {
+                            editViewModel.onPickInforItem()
+                        }
                 )
 
                 Column(
@@ -192,6 +205,35 @@ fun EditScreen(
                     }
                 }
                 Spacer(modifier = Modifier.padding(it))
+            }
+        }
+
+        if (editViewModel.isPopUpInforItem.value) {
+            Dialog(
+                onDismissRequest = { editViewModel.onCancelOrDismissClickInforPopup() },
+                properties = DialogProperties(false)
+            ) {
+                InforItemEditPopup(
+                    user = editViewModel.currentPickInfor.value!!,
+                    onCancelClick = { editViewModel.onCancelOrDismissClickInforPopup() },
+                    onSaveClick = {
+                        coroutineScope.launch {
+                            editViewModel.onPopUpInforItemSaveClick()
+                        }
+                    },
+                    onNameChange = {
+                        editViewModel.onPopUpInforItemNameChange(it)
+                    },
+                    onPhoneChange = {
+                        editViewModel.onPopUpInforItemPhoneChange(it)
+                    },
+                    onEmailChange = {
+                        editViewModel.onPopUpInforItemEmailChange(it)
+                    },
+                    onBirthdayChange = {
+                        editViewModel.onPopUpInforItemBirthdayChange(it)
+                    }
+                )
             }
         }
 
@@ -429,16 +471,172 @@ fun SocialInforItemEditPopup(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun InforItemEditPopup(
+    user: User,
+    onCancelClick: () -> Unit,
+    onSaveClick: () -> Unit,
+    onNameChange: (String) -> Unit,
+    onPhoneChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onBirthdayChange: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier
+) {
+//    val context = LocalContext.current
+//    val keyboardController = LocalSoftwareKeyboardController.current
+//    val focusManager = LocalFocusManager.current
+
+
+    Card(
+        elevation = 5.dp,
+        modifier = modifier.height(IntrinsicSize.Min),
+        shape = MaterialTheme.shapes.large,
+
+        ) {
+        val birthdayLocalDate =
+            if (user.birthday != null) dateStringToLocalDate(user.birthday!!) else LocalDate.now()
+
+        val selectedDates = remember { mutableStateOf<LocalDate>(birthdayLocalDate) }
+//
+        val calendarState = rememberUseCaseState()
+
+        CalendarDialog(
+            state = calendarState,
+            config = CalendarConfig(
+                yearSelection = true,
+                monthSelection = true,
+                style = CalendarStyle.MONTH,
+            ),
+            selection = CalendarSelection.Date { newDates ->
+                selectedDates.value = newDates
+                onBirthdayChange(newDates)
+            }
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background)
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Column(modifier = Modifier.padding(bottom = 10.dp)) {
+                OutLinedTextFieldEdit(
+                    value = user.name ?: "",
+                    onValueChange = onNameChange,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions()
+                )
+                OutLinedTextFieldEdit(
+                    value = user.phone ?: "",
+                    onValueChange = onPhoneChange,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                    ),
+                )
+                OutLinedTextFieldEdit(
+                    value = user.email ?: "",
+                    onValueChange = onEmailChange,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions()
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp, vertical = 5.dp)
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                        .background(MaterialTheme.colors.surface)
+                        .clickable {
+                            calendarState.show()
+                        },
+
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        style = MaterialTheme.typography.h5.copy(textAlign = TextAlign.Center),
+                        text = user.birthday ?: "",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+//                OutLinedTextFieldEdit(
+//                    value = user.birthday ?: "",
+//                    onValueChange = {  },
+//                    keyboardOptions = KeyboardOptions(
+//                        imeAction = ImeAction.Done
+//                    ),
+//                    readOnly = true,
+//                    keyboardActions = KeyboardActions(
+//                    ),
+//                    Modifier.clickable {
+//                        calendarState.show()
+//                    }
+//                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp, 0.dp)
+                    .padding(bottom = 10.dp)
+            ) {
+                Button(
+                    onClick = onCancelClick,
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.cancel),
+                        style = MaterialTheme.typography.h6,
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(20.dp))
+
+                Button(
+                    onClick = onSaveClick,
+                    modifier = Modifier
+                        .weight(1f),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.onSecondary
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.save),
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.secondary
+                    )
+                }
+            }
+        }
+    }
+}
+
+
 @Composable
 fun OutLinedTextFieldEdit(
     value: String,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions,
-    keyboardActions: KeyboardActions
+    readOnly: Boolean = false,
+    keyboardActions: KeyboardActions,
+    modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
+        readOnly = readOnly,
         textStyle = MaterialTheme.typography.h5.copy(textAlign = TextAlign.Center),
         shape = MaterialTheme.shapes.medium,
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -463,7 +661,7 @@ fun OutLinedTextFieldEdit(
         },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 5.dp, vertical = 5.dp)
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
