@@ -21,13 +21,16 @@ fun ECardNavHost(
 ) {
     NavHost(
         navController = navController,
-//        startDestination = HomeDestination.route,
+        startDestination = HomeDestination.route,
 //        startDestination = SignInDestination.route,
-        startDestination = ShareDestination.route,
+//        startDestination = ShareDestination.route,
         modifier = modifier
     ) {
         composable(ShareDestination.route) {
-            ShareScreen()
+            ShareScreen(
+                navigateTo = { navController.navigate(it) },
+                currentDestination = navController.currentDestination
+            )
         }
 
         composable(route = SignInDestination.route) {

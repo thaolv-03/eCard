@@ -12,14 +12,7 @@ data class User(
     var email: String? = null,
     var birthday: String? = null,
     @Ignore var image: Painter? = null,
-//    @Ignore var socialList: List<Social> = listOf(
-//        Social(socialName = SocialName.FACEBOOK.sName, userName = "", link = ""),
-//        Social(socialName = SocialName.INSTAGRAM.sName, userName = "", link = ""),
-//        Social(socialName = SocialName.LINKEDIN.sName, userName = "", link = ""),
-//        Social(socialName = SocialName.TIKTOK.sName, userName = "", link = ""),
-//        Social(socialName = SocialName.YOUTUBE.sName, userName = "", link = ""),
-//        Social(socialName = SocialName.TWITTER.sName, userName = "", link = ""),
-//    )
+
 ) {
     constructor() : this(0) {}
 }

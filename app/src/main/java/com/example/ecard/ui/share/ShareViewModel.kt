@@ -1,44 +1,41 @@
 package com.example.ecard.ui.share
 
 import android.graphics.Bitmap
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecard.data.model.UserWithSocialList
 import com.example.ecard.data.repository.UserRepository
+import com.example.ecard.ui.home.sortSocialList
 import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import java.util.Hashtable
+
 
 class ShareViewModel(private val userRepository: UserRepository) : ViewModel() {
     val text = mutableStateOf("")
     val image: MutableState<Bitmap?> = mutableStateOf(null)
-//    var dataObject: UserWithSocialList? = null
 
     init {
-//        viewModelScope.launch {
-//            userRepository.getUserWithSocialList(0).filterNotNull().collect() {
-//                dataObject = it
-//            }
-//        }
+
     }
 
     fun createQr() {
         viewModelScope.launch {
+            val hints = Hashtable<EncodeHintType, String>()
+            hints[EncodeHintType.CHARACTER_SET] = "utf-8"
             val text = getData()
             val writer = MultiFormatWriter()
             try {
-                val matrix = writer.encode(text, BarcodeFormat.QR_CODE, 1500, 1500)
+                val matrix = writer.encode(text, BarcodeFormat.QR_CODE, 800, 800, hints)
                 val encoder = BarcodeEncoder()
                 val bitmap = encoder.createBitmap(matrix)
 
@@ -47,13 +44,16 @@ class ShareViewModel(private val userRepository: UserRepository) : ViewModel() {
                 e.printStackTrace()
             }
         }
-
     }
 
     suspend fun getData(): String {
         val gson = Gson()
         val dataObject: UserWithSocialList =
-            userRepository.getUserWithSocialList(0).filterNotNull().first()
+            userRepository.getUserWithSocialList(0)
+                .filterNotNull().first()
+                .let {
+                    it.copy(socialList = sortSocialList(it.socialList))
+                }
 
         return try {
             gson.toJson(dataObject)
