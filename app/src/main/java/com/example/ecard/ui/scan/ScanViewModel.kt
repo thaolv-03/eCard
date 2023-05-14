@@ -8,25 +8,25 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 
 class ScanViewModel() : ViewModel() {
-
     fun scan(context: Context) {
         val options = GmsBarcodeScannerOptions.Builder()
             .setBarcodeFormats(
                 Barcode.FORMAT_QR_CODE,
-                Barcode.FORMAT_AZTEC)
+                Barcode.FORMAT_AZTEC
+            )
             .build()
         val scanner = GmsBarcodeScanning.getClient(context, options)
 
-            scanner.startScan()
-                .addOnSuccessListener { barcode ->
-                    // Task completed successfully
-                    barcode.rawValue.toString()
-                }
-                .addOnCanceledListener {
-                    // Task canceled
-                }
-                .addOnFailureListener { e ->
-                    // Task failed with an exception
-                }
+        scanner.startScan()
+            .addOnSuccessListener { barcode ->
+                // Task completed successfully
+                barcode.rawValue.toString()
+            }
+            .addOnCanceledListener {
+                // Task canceled
+            }
+            .addOnFailureListener { e ->
+                // Task failed with an exception
+            }
     }
 }

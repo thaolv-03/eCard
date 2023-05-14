@@ -42,8 +42,8 @@ class EditViewModel(
                     email = it.user.email ?: "",
                     image = it.user.image,
                     socialList =
-                    if (it.socialList.isNotEmpty()) sortSocialList(it.socialList) else it.socialList
-
+                    if (it.socialList.isNotEmpty()) sortSocialList(it.socialList)
+                    else dataResource.userExample.socialList
                 )
             }.stateIn(
                 scope = viewModelScope,
@@ -146,10 +146,14 @@ fun localDateToDateString(localDate: LocalDate): String {
 fun sortSocialList(socialList: List<Social>): List<Social> {
     val result = mutableListOf<Social>()
 
-    for (i in 0..5)
-        result.add(socialList.first {
+    for (i in 0..5) {
+        val social = socialList.firstOrNull() {
             it.socialTypeId == i
-        })
+        }
 
+        if (social != null) {
+            result.add(social)
+        }
+    }
     return result
 }
