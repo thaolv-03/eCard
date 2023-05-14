@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material.icons.outlined.PhoneInTalk
@@ -39,12 +40,14 @@ import com.example.ecard.data.model.SocialName
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.BottomBarEdit
+import com.example.ecard.ui.edit.EditDestination
 import com.example.ecard.ui.theme.ECardTheme
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.app_name
 }
+
 
 @Composable
 fun HomeScreen(
@@ -57,7 +60,12 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBarEdit(title = R.string.home_screen)
+            TopAppBarEdit(
+                title = R.string.home_screen,
+                actionButton = if (user.isMe == true) {
+                    { ActionEditButton(navigateTo = navigateTo) }
+                } else null
+            )
         },
         bottomBar = {
             BottomBarEdit(navigateTo = navigateTo, currentDestination = currentDestination)
@@ -199,6 +207,20 @@ fun HomeScreen(
             }
         }
     }
+}
+
+
+@Composable
+fun ActionEditButton(navigateTo: (String) -> Unit) {
+    Button(onClick = { navigateTo(EditDestination.route) }) {
+        Icon(
+            imageVector = Icons.Outlined.EditNote,
+            contentDescription = stringResource(
+                id = R.string.edit
+            )
+        )
+    }
+
 }
 
 @Composable

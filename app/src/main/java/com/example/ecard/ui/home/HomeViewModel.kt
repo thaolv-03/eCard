@@ -43,6 +43,7 @@ class HomeViewModel(
                     phone = it.user.phone ?: "",
                     email = it.user.email ?: "",
                     image = it.user.image,
+                    isMe = it.user.isMe,
                     socialList =
                     if (it.socialList.isNotEmpty()) sortSocialList(it.socialList)
                     else  dataResource.userExample.socialList

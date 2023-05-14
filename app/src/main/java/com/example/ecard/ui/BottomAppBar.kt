@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import com.example.ecard.ui.edit.EditDestination
 import com.example.ecard.ui.home.HomeDestination
+import com.example.ecard.ui.share.ShareDestination
 
 data class BottomNavItem(
     val route: String,
@@ -25,16 +26,16 @@ val bottomNavItems = listOf(
         icon = Icons.Outlined.Home,
     ),
     BottomNavItem(
-        route = "share",
-        icon = Icons.Outlined.QrCode2
+        route = "contact",
+        icon = Icons.Outlined.Group
     ),
     BottomNavItem(
         route = "scan",
         icon = Icons.Outlined.QrCodeScanner,
     ),
     BottomNavItem(
-        route = EditDestination.route,
-        icon = Icons.Outlined.EditNote,
+        route = ShareDestination.route,
+        icon = Icons.Outlined.QrCode2,
     ),
     BottomNavItem(
         route = "setting",

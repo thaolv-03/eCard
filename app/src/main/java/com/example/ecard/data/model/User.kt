@@ -12,7 +12,7 @@ data class User(
     var email: String? = null,
     var birthday: String? = null,
     @Ignore var image: Painter? = null,
-
+    var isMe: Boolean? = null
 ) {
     constructor() : this(0) {}
 }

@@ -29,4 +29,7 @@ class ScanViewModel() : ViewModel() {
                 // Task failed with an exception
             }
     }
+
+
+
 }
