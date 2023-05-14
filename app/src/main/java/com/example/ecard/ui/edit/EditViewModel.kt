@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecard.data.dataResource
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.SocialRepository
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -47,15 +49,12 @@ class EditViewModel(
                 initialValue = EditUiState()
             )
 
-//    val uiState: MutableState<EditUiState> = mutableStateOf(EditUiState())
-
     init {
-//        viewModelScope.launch {
-////            uiState.value = inforFromDB.first()
-//            inforFromDB.collect {
-//                uiState.value = it
-//            }
-//        }
+        viewModelScope.launch {
+            dataResource.userExample.socialList.forEachIndexed { i, social ->
+                socialRepository.insertSocial(social.copy(socialId = i))
+            }
+        }
     }
 
     // Social
@@ -107,12 +106,15 @@ class EditViewModel(
     fun onPopUpInforItemNameChange(newName: String) {
         currentPickInfor.value = currentPickInfor.value?.copy(name = newName)
     }
+
     fun onPopUpInforItemPhoneChange(newPhone: String) {
         currentPickInfor.value = currentPickInfor.value?.copy(phone = newPhone)
     }
+
     fun onPopUpInforItemEmailChange(newEmail: String) {
         currentPickInfor.value = currentPickInfor.value?.copy(email = newEmail)
     }
+
     fun onPopUpInforItemBirthdayChange(newBirthday: LocalDate) {
         val newBirthdayString = localDateToDateString(newBirthday)
 
@@ -120,11 +122,11 @@ class EditViewModel(
     }
 
 
-
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
 }
+
 fun dateStringToLocalDate(dateString: String): LocalDate {
     val dateArr = dateString.split("/")
     val day = dateArr[0].toInt()
@@ -133,6 +135,7 @@ fun dateStringToLocalDate(dateString: String): LocalDate {
 
     return LocalDate.of(year, month, day)
 }
+
 fun localDateToDateString(localDate: LocalDate): String {
     val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     return localDate.format(dateFormat)

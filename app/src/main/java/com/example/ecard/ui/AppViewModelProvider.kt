@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ecard.ECardApplication
 import com.example.ecard.ui.edit.EditViewModel
 import com.example.ecard.ui.home.HomeViewModel
+import com.example.ecard.ui.share.ShareViewModel
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
@@ -23,6 +24,12 @@ object AppViewModelProvider {
             EditViewModel(
                 eCardApplication().container.userRepository,
                 eCardApplication().container.socialRepository
+            )
+        }
+
+        initializer {
+            ShareViewModel(
+                eCardApplication().container.userRepository
             )
         }
 

@@ -43,8 +43,10 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import com.example.ecard.R
+import com.example.ecard.data.model.CONST
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
+import com.example.ecard.data.model.SocialType
 import com.example.ecard.data.model.User
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
@@ -378,7 +380,7 @@ fun SocialInforItemEditPopup(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    val image = when (social.socialName) {
+    val image = when (CONST.SOCIAL_TYPE[social.socialId]) {
         SocialName.FACEBOOK.sName -> painterResource(id = R.drawable.facebook)
         SocialName.INSTAGRAM.sName -> painterResource(id = R.drawable.instagram)
         SocialName.LINKEDIN.sName -> painterResource(id = R.drawable.linkedin)
@@ -400,14 +402,14 @@ fun SocialInforItemEditPopup(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = social.socialName,
+                text = CONST.SOCIAL_TYPE[social.socialTypeId] as String,
                 style = MaterialTheme.typography.h3,
                 modifier = Modifier
                     .padding(vertical = 5.dp)
             )
             Image(
                 painter = image,
-                contentDescription = social.socialName,
+                contentDescription = CONST.SOCIAL_TYPE[social.socialTypeId] as String?,
                 modifier = Modifier
                     .size(110.dp)
                     .padding(0.dp, 10.dp)

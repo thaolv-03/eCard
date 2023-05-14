@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "784700061657",
+    "project_id": "ecard-b7e84",
+    "storage_bucket": "ecard-b7e84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784700061657:android:abd12cde22917b4ccd4bc8",
+        "android_client_info": {
+          "package_name": "com.example.ecard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784700061657-1km6ugamssdsn8bf8pnfo31cqr696gmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIfBkr5vGOv9GjXu_apqdBZ5WwYjRV1AA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784700061657-1km6ugamssdsn8bf8pnfo31cqr696gmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,20 +27,11 @@ class HomeViewModel(
     val currentPickSocial:MutableState<Social?> = mutableStateOf(null)
     init {
         viewModelScope.launch {
-            userRepository.insertUser(dataResource.userExample)
+            userRepository.insertUser(dataResource.userExample.user)
 
         }
     }
 
-//    val uiState = MutableStateFlow(
-//        HomeUiState(
-//            name = user.name ?: "",
-//            birthday = user.birthday ?: "",
-//            phone = user.phone ?: "",
-//            email = user.email ?: "",
-//            image = user.image,
-//        )
-//    )
     val uiState: StateFlow<HomeUiState> =
         userRepository.getUserWithSocialList(0)
             .filterNotNull()

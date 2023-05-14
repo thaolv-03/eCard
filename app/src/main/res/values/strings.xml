@@ -20,4 +20,6 @@
     <string name="edit">Chỉnh sửa</string>
     <string name="place_holder_user_name">Nhập tên người dùng</string>
     <string name="save">Lưu</string>
+    <string name="web_client_id">784700061657-lgr2mo7f6t07sb497t1qqohrivpo22ng.apps.googleusercontent.com</string>
+    <string name="sign_in">sign_in</string>
 </resources>

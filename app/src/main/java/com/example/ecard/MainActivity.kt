@@ -11,9 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.ecard.ui.home.HomeScreen
+import com.example.ecard.ui.sign_in.GoogleAuthUiClient
 import com.example.ecard.ui.theme.ECardTheme
+import com.google.android.gms.auth.api.identity.Identity
 
 class MainActivity : ComponentActivity() {
+
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

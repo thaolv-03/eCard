@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp' version "1.8.0-1.0.9"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -80,4 +81,22 @@ dependencies {
     implementation "com.maxkeppeler.sheets-compose-dialogs:core:1.1.1"
     // CALENDAR
     implementation "com.maxkeppeler.sheets-compose-dialogs:calendar:1.1.1"
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+
+    // Add the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // Also add the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+
+    implementation "io.coil-kt:coil-compose:2.2.2"
+
+    //QR scan
+    implementation 'com.google.android.gms:play-services-code-scanner:16.0.0'
+
+    //JSON
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
