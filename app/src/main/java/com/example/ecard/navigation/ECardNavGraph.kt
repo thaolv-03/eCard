@@ -21,9 +21,9 @@ fun ECardNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestination.route,
+//        startDestination = HomeDestination.route,
 //        startDestination = SignInDestination.route,
-//        startDestination = ShareDestination.route,
+        startDestination = ShareDestination.route,
         modifier = modifier
     ) {
         composable(ShareDestination.route) {

@@ -1,11 +1,12 @@
 package com.example.ecard.ui.share
 
+import androidx.compose.foundation.Image
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ecard.R
 import com.example.ecard.navigation.NavigationDestination
@@ -18,12 +19,22 @@ object ShareDestination : NavigationDestination {
 }
 
 @Composable
-fun ShareScreen(shareViewModel: ShareViewModel = viewModel(factory = Factory)) {
+fun ShareScreen(viewModel: ShareViewModel = viewModel(factory = Factory)) {
+    val image = viewModel.image.value
 
     LaunchedEffect(key1 = "") {
-        shareViewModel.getData()
+        viewModel.createQr()
+    }
+
+    if (image != null) {
+        Image(
+            bitmap = image.asImageBitmap(),
+            contentDescription = ""
+        )
     }
 
 
-    Text(shareViewModel.text.value)
+
+
+    Text(viewModel.text.value)
 }

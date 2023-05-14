@@ -24,7 +24,8 @@ class HomeViewModel(
     private val user: User = User()
 
     val isPopUpSocialItem = mutableStateOf(false)
-    val currentPickSocial:MutableState<Social?> = mutableStateOf(null)
+    val currentPickSocial: MutableState<Social?> = mutableStateOf(null)
+
     init {
         viewModelScope.launch {
             userRepository.insertUser(dataResource.userExample.user)
@@ -42,7 +43,8 @@ class HomeViewModel(
                     phone = it.user.phone ?: "",
                     email = it.user.email ?: "",
                     image = it.user.image,
-                    socialList = it.socialList
+                    socialList =
+                    if (it.socialList.isNotEmpty()) sortSocialList(it.socialList) else it.socialList
                 )
             }.stateIn(
                 scope = viewModelScope,
@@ -50,12 +52,12 @@ class HomeViewModel(
                 initialValue = HomeUiState()
             )
 
-    fun onPickSocialItem(socialId: Int) {
+    fun onPickSocialItem(socialTypeId: Int) {
 //        uiState.update {
 //            it.copy(currentPickSocial = user.socialList[socialId])
 //        }
 //        uiState.value = uiState.value.copy(currentPickSocial = user.socialList[socialId])
-        currentPickSocial.value = uiState.value.socialList?.get(socialId)
+        currentPickSocial.value = uiState.value.socialList?.get(socialTypeId)
         isPopUpSocialItem.value = true
     }
 
@@ -66,9 +68,9 @@ class HomeViewModel(
 
     fun onClickAccess(context: Context, url: String) {
         val urlEdit =
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            "http://$url"
-        } else url
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                "http://$url"
+            } else url
 
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlEdit))
         startActivity(context, browserIntent, null)
@@ -77,4 +79,15 @@ class HomeViewModel(
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
+}
+
+fun sortSocialList(socialList: List<Social>): List<Social> {
+    val result = mutableListOf<Social>()
+
+    for (i in 0..5)
+        result.add(socialList.first {
+            it.socialTypeId == i
+        })
+
+    return result
 }

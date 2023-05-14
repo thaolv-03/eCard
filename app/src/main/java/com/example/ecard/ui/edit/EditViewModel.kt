@@ -41,7 +41,9 @@ class EditViewModel(
                     phone = it.user.phone ?: "fsdfsd",
                     email = it.user.email ?: "",
                     image = it.user.image,
-                    socialList = it.socialList
+                    socialList =
+                    if (it.socialList.isNotEmpty()) sortSocialList(it.socialList) else it.socialList
+
                 )
             }.stateIn(
                 scope = viewModelScope,
@@ -52,14 +54,14 @@ class EditViewModel(
     init {
         viewModelScope.launch {
             dataResource.userExample.socialList.forEachIndexed { i, social ->
-                socialRepository.insertSocial(social.copy(socialId = i))
+                socialRepository.insertSocial(social.copy(socialId = i + 1))
             }
         }
     }
 
     // Social
-    fun onPickSocialItem(socialId: Int) {
-        currentPickSocial.value = uiState.value.socialList?.get(socialId)
+    fun onPickSocialItem(socialTypeId: Int) {
+        currentPickSocial.value = uiState.value.socialList?.get(socialTypeId)
         isPopUpSocialItem.value = true
     }
 
@@ -139,4 +141,15 @@ fun dateStringToLocalDate(dateString: String): LocalDate {
 fun localDateToDateString(localDate: LocalDate): String {
     val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     return localDate.format(dateFormat)
+}
+
+fun sortSocialList(socialList: List<Social>): List<Social> {
+    val result = mutableListOf<Social>()
+
+    for (i in 0..5)
+        result.add(socialList.first {
+            it.socialTypeId == i
+        })
+
+    return result
 }

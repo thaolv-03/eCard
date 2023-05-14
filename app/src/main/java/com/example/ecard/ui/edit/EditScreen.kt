@@ -380,7 +380,7 @@ fun SocialInforItemEditPopup(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    val image = when (CONST.SOCIAL_TYPE[social.socialId]) {
+    val image = when (CONST.SOCIAL_TYPE[social.socialTypeId]) {
         SocialName.FACEBOOK.sName -> painterResource(id = R.drawable.facebook)
         SocialName.INSTAGRAM.sName -> painterResource(id = R.drawable.instagram)
         SocialName.LINKEDIN.sName -> painterResource(id = R.drawable.linkedin)
