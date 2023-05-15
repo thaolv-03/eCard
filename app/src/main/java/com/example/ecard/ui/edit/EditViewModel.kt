@@ -31,7 +31,7 @@ class EditViewModel(
     val currentPickInfor: MutableState<User?> = mutableStateOf(null)
 
     val uiState: StateFlow<EditUiState> =
-        userRepository.getUserWithSocialList(0)
+        userRepository.getUserWithSocialList(1)
             .filterNotNull()
             .map {
                 EditUiState(

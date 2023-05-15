@@ -19,7 +19,7 @@ interface UserDao {
     fun getUserWithSocialList(userId: Int): Flow<UserWithSocialList>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(user: User)
+    suspend fun insert(user: User): Long
 
     @Update
     suspend fun update(user: User)

@@ -34,7 +34,7 @@ class HomeViewModel(
     }
 
     val uiState: StateFlow<HomeUiState> =
-        userRepository.getUserWithSocialList(0)
+        userRepository.getUserWithSocialList(1)
             .filterNotNull()
             .map {
                 HomeUiState(

@@ -49,7 +49,7 @@ class ShareViewModel(private val userRepository: UserRepository) : ViewModel() {
     suspend fun getData(): String {
         val gson = Gson()
         val dataObject: UserWithSocialList =
-            userRepository.getUserWithSocialList(0)
+            userRepository.getUserWithSocialList(1)
                 .filterNotNull().first()
                 .let {
                     it.copy(socialList = sortSocialList(it.socialList))

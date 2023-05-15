@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import com.example.ecard.ui.edit.EditDestination
 import com.example.ecard.ui.home.HomeDestination
+import com.example.ecard.ui.scan.ScanDestination
 import com.example.ecard.ui.share.ShareDestination
 
 data class BottomNavItem(
@@ -30,7 +31,7 @@ val bottomNavItems = listOf(
         icon = Icons.Outlined.Group
     ),
     BottomNavItem(
-        route = "scan",
+        route = ScanDestination.route,
         icon = Icons.Outlined.QrCodeScanner,
     ),
     BottomNavItem(

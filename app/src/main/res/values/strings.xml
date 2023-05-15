@@ -23,5 +23,9 @@
     <string name="web_client_id">784700061657-lgr2mo7f6t07sb497t1qqohrivpo22ng.apps.googleusercontent.com</string>
     <string name="sign_in">sign_in</string>
     <string name="share">Chia sẻ</string>
-    <string name="contact">contact</string>
+    <string name="contact">Danh sách liên hệ</string>
+    <string name="expand_button_content_description">See more or less information about a dog.</string>
+    <string name="delete">Xóa</string>
+    <string name="search_icon">Icon tìm kiếm</string>
+    <string name="search_contact">Tìm kiếm liên hệ</string>
 </resources>

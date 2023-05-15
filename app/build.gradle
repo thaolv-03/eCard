@@ -96,6 +96,8 @@ dependencies {
 
     //QR scan
     implementation 'com.google.android.gms:play-services-code-scanner:16.0.0'
+    implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false }
+    implementation 'com.google.zxing:core:3.4.0'
 
     //JSON
     implementation 'com.google.code.gson:gson:2.10.1'

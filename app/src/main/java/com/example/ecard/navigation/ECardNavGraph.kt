@@ -5,10 +5,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.ecard.ui.contact.ContactDestination
+import com.example.ecard.ui.contact.ContactScreen
 import com.example.ecard.ui.edit.EditDestination
 import com.example.ecard.ui.edit.EditScreen
 import com.example.ecard.ui.home.HomeDestination
 import com.example.ecard.ui.home.HomeScreen
+import com.example.ecard.ui.scan.ScanDestination
+import com.example.ecard.ui.scan.ScanScreen
 import com.example.ecard.ui.share.ShareDestination
 import com.example.ecard.ui.share.ShareScreen
 import com.example.ecard.ui.sign_in.SignInDestination
@@ -22,8 +26,8 @@ fun ECardNavHost(
     NavHost(
         navController = navController,
 //        startDestination = HomeDestination.route,
-        startDestination = SignInDestination.route,
-//        startDestination = ShareDestination.route,
+//        startDestination = SignInDestination.route,
+        startDestination = ShareDestination.route,
         modifier = modifier
     ) {
         composable(ShareDestination.route) {
@@ -33,8 +37,19 @@ fun ECardNavHost(
             )
         }
 
+        composable(ContactDestination.route) {
+            ContactScreen(
+                navigateTo = { navController.navigate(it) },
+                currentDestination = navController.currentDestination
+            )
+        }
+
         composable(route = SignInDestination.route) {
             SignInScreen()
+        }
+
+        composable(route = ScanDestination.route) {
+            ScanScreen(navigateTo = { navController.navigate(it) })
         }
 
         composable(route = HomeDestination.route) {

@@ -6,7 +6,7 @@ import androidx.room.*
 @Entity(tableName = "user")
 data class User(
     @PrimaryKey(autoGenerate = true)
-    var userId: Int? = 0,
+    var userId: Int = 0,
     var name: String? = null,
     var phone: String? = null,
     var email: String? = null,
