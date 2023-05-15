@@ -52,11 +52,11 @@ class EditViewModel(
             )
 
     init {
-        viewModelScope.launch {
-            dataResource.userExample.socialList.forEachIndexed { i, social ->
-                socialRepository.insertSocial(social.copy(socialId = i + 1))
-            }
-        }
+//        viewModelScope.launch {
+//            dataResource.userExample.socialList.forEachIndexed { i, social ->
+//                socialRepository.insertSocial(social.copy(socialId = i + 1))
+//            }
+//        }
     }
 
     // Social
