@@ -49,7 +49,9 @@ fun ECardNavHost(
         }
 
         composable(route = ScanDestination.route) {
-            ScanScreen(navigateTo = { navController.navigate(it) })
+            ScanScreen(navigateTo = { navController.navigate(it) },
+                currentDestination = navController.currentDestination
+            )
         }
 
         composable(route = HomeDestination.route) {

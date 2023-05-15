@@ -485,10 +485,10 @@ fun InforItemEditPopup(
     onBirthdayChange: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
 //    val context = LocalContext.current
 //    val keyboardController = LocalSoftwareKeyboardController.current
 //    val focusManager = LocalFocusManager.current
-
 
     Card(
         elevation = 5.dp,
@@ -523,6 +523,13 @@ fun InforItemEditPopup(
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            Text(
+                text = "Thông tin cá nhân",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+            )
 
             Column(modifier = Modifier.padding(bottom = 10.dp)) {
                 OutLinedTextFieldEdit(
@@ -570,20 +577,6 @@ fun InforItemEditPopup(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-
-//                OutLinedTextFieldEdit(
-//                    value = user.birthday ?: "",
-//                    onValueChange = {  },
-//                    keyboardOptions = KeyboardOptions(
-//                        imeAction = ImeAction.Done
-//                    ),
-//                    readOnly = true,
-//                    keyboardActions = KeyboardActions(
-//                    ),
-//                    Modifier.clickable {
-//                        calendarState.show()
-//                    }
-//                )
             }
 
             Row(

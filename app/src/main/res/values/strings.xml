@@ -28,4 +28,5 @@
     <string name="delete">Xóa</string>
     <string name="search_icon">Icon tìm kiếm</string>
     <string name="search_contact">Tìm kiếm liên hệ</string>
+    <string name="scan">Quét mã QR</string>
 </resources>
