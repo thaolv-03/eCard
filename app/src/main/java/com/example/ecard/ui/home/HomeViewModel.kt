@@ -7,6 +7,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecard.data.dataResource
@@ -18,10 +19,11 @@ import kotlinx.coroutines.launch
 
 
 class HomeViewModel(
+    savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val user: User = User()
+    private val userId:Int = savedStateHandle[HomeDestination.userIdArg] ?: 1
 
     val isPopUpSocialItem = mutableStateOf(false)
     val currentPickSocial: MutableState<Social?> = mutableStateOf(null)
@@ -30,7 +32,7 @@ class HomeViewModel(
     }
 
     val uiState: StateFlow<HomeUiState> =
-        userRepository.getUserWithSocialList(1)
+        userRepository.getUserWithSocialList(userId)
             .filterNotNull()
             .map {
                 HomeUiState(

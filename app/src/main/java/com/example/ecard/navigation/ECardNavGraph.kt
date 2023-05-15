@@ -3,8 +3,10 @@ package com.example.ecard.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.ecard.ui.contact.ContactDestination
 import com.example.ecard.ui.contact.ContactScreen
 import com.example.ecard.ui.edit.EditDestination
@@ -30,6 +32,13 @@ fun ECardNavHost(
         startDestination = ShareDestination.route,
         modifier = modifier
     ) {
+        composable(route = HomeDestination.route) {
+            HomeScreen(
+                navigateTo = { navController.navigate(it) },
+                currentDestination = navController.currentDestination
+            )
+        }
+
         composable(ShareDestination.route) {
             ShareScreen(
                 navigateTo = { navController.navigate(it) },
@@ -54,7 +63,13 @@ fun ECardNavHost(
             )
         }
 
-        composable(route = HomeDestination.route) {
+        composable(
+            route = HomeDestination.routeWithArgs,
+            arguments = listOf(navArgument(HomeDestination.userIdArg) {
+                type = NavType.IntType
+                defaultValue = 0
+            })
+        ) {
             HomeScreen(
                 navigateTo = { navController.navigate(it) },
                 currentDestination = navController.currentDestination

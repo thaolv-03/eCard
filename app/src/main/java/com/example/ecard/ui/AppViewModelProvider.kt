@@ -17,6 +17,7 @@ object AppViewModelProvider {
         // Initializer for ItemEditViewModel
         initializer {
             HomeViewModel(
+                this.createSavedStateHandle(),
                 eCardApplication().container.userRepository
             )
         }

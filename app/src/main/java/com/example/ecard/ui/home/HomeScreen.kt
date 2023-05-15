@@ -46,6 +46,8 @@ import com.example.ecard.ui.theme.ECardTheme
 object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.app_name
+    const val userIdArg = "userId"
+    val routeWithArgs = "${route}/${userIdArg}"
 }
 
 
