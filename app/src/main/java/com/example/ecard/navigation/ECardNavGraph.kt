@@ -21,8 +21,8 @@ fun ECardNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestination.route,
-//        startDestination = SignInDestination.route,
+//        startDestination = HomeDestination.route,
+        startDestination = SignInDestination.route,
 //        startDestination = ShareDestination.route,
         modifier = modifier
     ) {
