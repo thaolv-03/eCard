@@ -27,10 +27,6 @@ class HomeViewModel(
     val currentPickSocial: MutableState<Social?> = mutableStateOf(null)
 
     init {
-        viewModelScope.launch {
-            userRepository.insertUser(dataResource.userExample.user)
-
-        }
     }
 
     val uiState: StateFlow<HomeUiState> =
