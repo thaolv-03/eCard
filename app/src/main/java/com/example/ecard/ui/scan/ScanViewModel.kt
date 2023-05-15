@@ -34,7 +34,9 @@ class ScanViewModel(
         data = editData(data)
 
         viewModelScope.launch {
-            val userId = userRepository.insertUser(data.user)
+            val userId = userRepository.insertUser(
+                data.user.apply { isMe = false }
+            )
             data.socialList.forEach {
                 it.apply {
                     this.userId = userId.toInt()
