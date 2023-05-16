@@ -29,6 +29,7 @@ class ContactViewModel(
                 .map { users ->
                     users.map {
                         SimpleUser(
+                            userId = it.userId,
                             name = it.name ?: "",
                             image = it.imageUrl ?: ""
                         )

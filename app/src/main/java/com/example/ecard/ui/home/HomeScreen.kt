@@ -33,6 +33,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.ecard.R
 import com.example.ecard.data.model.CONST
 import com.example.ecard.data.model.Social
@@ -47,7 +49,7 @@ object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.app_name
     const val userIdArg = "userId"
-    val routeWithArgs = "${route}/${userIdArg}"
+    val routeWithArgs = "$route/{$userIdArg}"
 }
 
 
@@ -81,7 +83,7 @@ fun HomeScreen(
         ) {
             item {
                 ImageAndName(
-                    image = painterResource(id = R.drawable.avatar),
+                    imageUrl = user.image,
                     description = "",
                     name = user.name,
                     modifier = Modifier
@@ -226,18 +228,29 @@ fun ActionEditButton(navigateTo: (String) -> Unit) {
 }
 
 @Composable
-fun ImageAndName(image: Painter, description: String, name: String, modifier: Modifier = Modifier) {
+fun ImageAndName(imageUrl: String, description: String, name: String, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = image,
-            contentDescription = description,
-            modifier = Modifier
+//        Image(
+//            painter = image,
+//            contentDescription = description,
+//            modifier = Modifier
+//                .size(180.dp)
+//                .clip(RoundedCornerShape(50)),
+//            contentScale = ContentScale.Crop
+//        )
+
+        AsyncImage(
+            model = ImageRequest.Builder(context = LocalContext.current)
+                .data(imageUrl)
+                .build(),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds,
+            modifier = modifier
                 .size(180.dp)
                 .clip(RoundedCornerShape(50)),
-            contentScale = ContentScale.Crop
         )
 
         Text(

@@ -6,6 +6,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -62,6 +63,7 @@ import com.example.ecard.data.model.simpleUsers
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider
 import com.example.ecard.ui.BottomBarEdit
+import com.example.ecard.ui.home.HomeDestination
 import com.example.ecard.ui.home.TopAppBarEdit
 
 object ContactDestination : NavigationDestination {
@@ -142,7 +144,7 @@ fun ContactScreen(
 
             ) {
                 items(simpleUserList) { simpleUser ->
-                    ContactItem(simpleUser = simpleUser)
+                    ContactItem(simpleUser = simpleUser, navigateTo = navigateTo)
                 }
             }
         }
@@ -152,11 +154,19 @@ fun ContactScreen(
 }
 
 @Composable
-fun ContactItem(simpleUser: SimpleUser, modifier: Modifier = Modifier) {
+fun ContactItem(
+    navigateTo: (String) -> Unit,
+    simpleUser: SimpleUser,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
+            .padding(8.dp)
+            .clickable {
+                navigateTo("${HomeDestination.route}/${simpleUser.userId}")
+            },
         elevation = 4.dp
     ) {
         Column(
@@ -181,7 +191,10 @@ fun ContactItem(simpleUser: SimpleUser, modifier: Modifier = Modifier) {
                 ContactItemButton(expanded = expanded, onClick = { expanded = !expanded })
             }
             if (expanded) {
-                ContactExpended(modifier = Modifier.padding(bottom = 8.dp))
+                ContactExpended(
+                    onAccessClick = { navigateTo("${HomeDestination.route}/${simpleUser.userId}") },
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
             }
         }
 
@@ -239,14 +252,14 @@ fun ContactInformation(contactName: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ContactExpended(modifier: Modifier = Modifier) {
+fun ContactExpended(onAccessClick: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onAccessClick,
             modifier = Modifier
                 .width(180.dp)
 //                .padding(vertical = 5.dp, horizontal = 10.dp)

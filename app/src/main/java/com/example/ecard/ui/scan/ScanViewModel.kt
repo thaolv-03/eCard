@@ -46,7 +46,7 @@ class ScanViewModel(
                 socialRepository.insertSocial(it)
             }
 
-            navigateTo(HomeDestination.route)
+            navigateTo("${HomeDestination.route}/${userId}")
         }
     }
 
