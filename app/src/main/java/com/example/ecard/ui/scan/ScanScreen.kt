@@ -1,17 +1,26 @@
 package com.example.ecard.ui.scan
 
-import android.content.ContentValues
-import android.util.Log
+
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewModelScope
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import com.example.ecard.R
@@ -19,13 +28,7 @@ import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.BottomBarEdit
 import com.example.ecard.ui.home.TopAppBarEdit
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
-import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
-import kotlinx.coroutines.launch
-import java.lang.Exception
 
 object ScanDestination : NavigationDestination {
     override val route = "scan"
@@ -46,7 +49,7 @@ fun ScanScreen(
             scanViewModel.onScanSuccess(result.contents, navigateTo)
         }
     )
-    
+
     Scaffold(
         topBar = {
             TopAppBarEdit(title = R.string.scan)
@@ -56,14 +59,43 @@ fun ScanScreen(
         }
     ) {
 
-        LaunchedEffect(key1 = "", ) {
-            try {
-                scanLauncher.launch(scanViewModel.scanOptions)
-            } catch (e: Exception) {
-                e.printStackTrace()
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 50.dp)
+                .padding(top = 130.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.scanner),
+                contentDescription = null,
+                modifier = Modifier.size(230.dp)
+            )
+
+            Button(
+                onClick = {
+                    try {
+                        scanLauncher.launch(scanViewModel.scanOptions)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                },
+                modifier = Modifier.padding(top = 190.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.onSecondary
+                ),
+                shape = MaterialTheme.shapes.medium
+            ) {
+                Text(
+                    text = stringResource(R.string.click_scan_label),
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.colors.secondary,
+                    modifier = Modifier.padding(horizontal = 45.dp, vertical = 3.dp)
+                )
             }
         }
-
         Spacer(modifier = Modifier.padding(it))
     }
 }
+

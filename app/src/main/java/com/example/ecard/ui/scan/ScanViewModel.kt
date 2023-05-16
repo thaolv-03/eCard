@@ -1,7 +1,5 @@
 package com.example.ecard.ui.scan
 
-import android.content.Context
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecard.data.model.UserWithSocialList
@@ -9,9 +7,6 @@ import com.example.ecard.data.repository.SocialRepository
 import com.example.ecard.data.repository.UserRepository
 import com.example.ecard.ui.home.HomeDestination
 import com.google.gson.Gson
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
-import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import com.journeyapps.barcodescanner.ScanOptions
 import kotlinx.coroutines.launch
 
@@ -20,8 +15,15 @@ class ScanViewModel(
     private val socialRepository: SocialRepository
 ) : ViewModel() {
 
-    val scanOptions = ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE).setBeepEnabled(false)
-    fun onScanSuccess(jsonString: String, navigateTo: (String) -> Unit) {
+    val scanOptions = ScanOptions()
+        .setOrientationLocked(false)
+        .setPrompt("Đặt mã QR bên trong hình vuông để quét")
+        .setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+
+    fun onScanSuccess(
+        jsonString: String,
+        navigateTo: (String) -> Unit
+    ) {
 
         val gson = Gson()
         var data =
