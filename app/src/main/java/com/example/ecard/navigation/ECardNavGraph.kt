@@ -15,6 +15,8 @@ import com.example.ecard.ui.home.HomeDestination
 import com.example.ecard.ui.home.HomeScreen
 import com.example.ecard.ui.scan.ScanDestination
 import com.example.ecard.ui.scan.ScanScreen
+import com.example.ecard.ui.setting.SettingDestination
+import com.example.ecard.ui.setting.SettingScreen
 import com.example.ecard.ui.share.ShareDestination
 import com.example.ecard.ui.share.ShareScreen
 import com.example.ecard.ui.sign_in.SignInDestination
@@ -114,6 +116,20 @@ fun ECardNavHost(
             )
         }
 
+        composable(
+            route = SettingDestination.route
+        ) {
+            SettingScreen(
+                navigateTo = {
+                    navController.popBackStack()
+                    navController.navigate(it)
+                },
+                currentDestination = navController.currentDestination,
+                onSignOut = {
+                    navController.popBackStack(SignInDestination.route, false)
+                }
+            )
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ecard.ui.sign_in
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -16,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,9 +48,14 @@ fun SignInScreen(
     navigateTo: (String) -> Unit,
     viewModel: SignInViewModel = SignInViewModel(AuthRepositoryImpl(FirebaseAuth.getInstance()))
 ) {
-    if (Firebase.auth.currentUser != null) {
-        navigateTo(HomeDestination.route)
+
+    remember {
+        if ((Firebase.auth.currentUser != null) or (viewModel.googleState.value.success != null)) {
+            navigateTo(HomeDestination.route)
+            Log.e("TEST", "LOOP?")
+        }
     }
+
 
     val context = LocalContext.current
 
@@ -58,7 +65,7 @@ fun SignInScreen(
             try {
                 val result = account.getResult(ApiException::class.java)
                 val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
-                viewModel.googleSignIn(credentials)
+                viewModel.googleSignIn(credentials, { navigateTo(HomeDestination.route) })
             } catch (it: ApiException) {
                 print(it)
             }
@@ -93,8 +100,6 @@ fun SignInScreen(
             Button(
                 onClick = {
                     launcher.launch(viewModel.getSignInIntent(context))
-                    if (viewModel.googleState.value.success != null)
-                        navigateTo(HomeDestination.route)
                 },
                 modifier = Modifier.padding(top = 10.dp),
                 colors = ButtonDefaults.buttonColors(

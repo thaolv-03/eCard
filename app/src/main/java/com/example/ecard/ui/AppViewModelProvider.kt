@@ -13,6 +13,9 @@ import com.example.ecard.ui.home.HomeViewModel
 import com.example.ecard.ui.scan.ScanViewModel
 import com.example.ecard.ui.setting.SettingViewModel
 import com.example.ecard.ui.share.ShareViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
@@ -53,7 +56,8 @@ object AppViewModelProvider {
 
         initializer {
             SettingViewModel(
-                eCardApplication().container.userRepository
+                eCardApplication().container.userRepository,
+                Firebase.auth
             )
         }
 

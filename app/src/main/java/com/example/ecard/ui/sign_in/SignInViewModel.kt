@@ -1,22 +1,15 @@
 package com.example.ecard.ui.sign_in
 
-import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecard.R
 import com.example.firebaseauthyt.data.AuthRepository
 import com.example.firebaseauthyt.util.Resource
-import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.channels.Channel
@@ -49,11 +42,12 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
         return googleSingInClient.signInIntent
     }
 
-    fun googleSignIn(credential: AuthCredential) = viewModelScope.launch {
+    fun googleSignIn(credential: AuthCredential, onSignInSuccess: () -> Unit) = viewModelScope.launch {
         authRepository.googleSignIn(credential).collect { result ->
             when (result) {
                 is Resource.Success<*> -> {
                     _googleState.value = GoogleSignInState(success = result.data)
+                    onSignInSuccess()
                 }
 
                 is Resource.Loading<*> -> {

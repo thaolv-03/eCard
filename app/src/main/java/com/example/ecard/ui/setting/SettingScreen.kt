@@ -1,13 +1,12 @@
 package com.example.ecard.ui.setting
 
-import androidx.compose.foundation.Image
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,12 +29,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.ecard.R
-import com.example.ecard.data.model.simpleUsers
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider
 import com.example.ecard.ui.BottomBarEdit
-import com.example.ecard.ui.home.SocialInforItemPopup
 import com.example.ecard.ui.home.TopAppBarEdit
 
 object SettingDestination : NavigationDestination {
@@ -47,8 +46,13 @@ object SettingDestination : NavigationDestination {
 fun SettingScreen(
     settingViewModel: SettingViewModel = viewModel(factory = AppViewModelProvider.Factory),
     currentDestination: NavDestination?,
-    navigateTo: (String) -> Unit
+    navigateTo: (String) -> Unit,
+    onSignOut: () -> Unit
 ) {
+    val context = LocalContext.current
+
+    val gUser = settingViewModel.getGUser(context)
+
     Scaffold(
         topBar = {
             TopAppBarEdit(title = R.string.setting)
@@ -57,9 +61,11 @@ fun SettingScreen(
             BottomBarEdit(navigateTo = navigateTo, currentDestination = currentDestination)
         }
     ) {
-        Column(modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
 
             Card(
                 modifier = Modifier
@@ -74,11 +80,14 @@ fun SettingScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        ProfileImage(simpleUsers[1].image)
-                        ProfileInformation(simpleUsers[1].name)
+                        ProfileImage(gUser?.photoUrl)
+                        ProfileInformation(gUser?.displayName ?: "")
                     }
 
-                    SignOutButton()
+                    SignOutButton({
+                        settingViewModel.onSignOutButtonClick()
+                        onSignOut()
+                    })
                 }
             }
 
@@ -86,7 +95,7 @@ fun SettingScreen(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth()
-                    .clickable {  }
+                    .clickable { }
             ) {
                 Column() {
                     Text(
@@ -145,28 +154,28 @@ fun SettingScreen(
 }
 
 @Composable
-fun ProfileImage(imageUrl: String, modifier: Modifier = Modifier) {
-//    AsyncImage(
-//        model = ImageRequest.Builder(context = LocalContext.current)
-//            .data(imageUrl)
-//            .build(),
-//        contentDescription = "",
-//        contentScale = ContentScale.FillBounds,
-//        modifier = modifier
-//            .size(64.dp)
-//            .padding(8.dp)
-//            .clip(RoundedCornerShape(50)),
-//    )
-
-    Image(
-        painter = painterResource(id = R.drawable.avatar),
-        contentDescription = null,
+fun ProfileImage(imageUrl: Uri?, modifier: Modifier = Modifier) {
+    AsyncImage(
+        model = ImageRequest.Builder(context = LocalContext.current)
+            .data(imageUrl)
+            .build(),
+        contentDescription = "",
         contentScale = ContentScale.FillBounds,
         modifier = modifier
             .size(64.dp)
             .padding(8.dp)
             .clip(RoundedCornerShape(50)),
     )
+
+//    Image(
+//        painter = painterResource(id = R.drawable.avatar),
+//        contentDescription = null,
+//        contentScale = ContentScale.FillBounds,
+//        modifier = modifier
+//            .size(64.dp)
+//            .padding(8.dp)
+//            .clip(RoundedCornerShape(50)),
+//    )
 }
 
 @Composable
@@ -179,9 +188,12 @@ fun ProfileInformation(profileName: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SignOutButton(modifier: Modifier = Modifier) {
+fun SignOutButton(
+    onSignOutButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = onSignOutButtonClick,
         modifier = modifier.padding(end = 10.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.onSecondary
@@ -199,7 +211,7 @@ fun SignOutButton(modifier: Modifier = Modifier) {
 @Composable
 fun SettingInterface() {
     Dialog(
-        onDismissRequest = {  },
+        onDismissRequest = { },
         properties = DialogProperties(false)
     ) {
         Text(text = "abc")
