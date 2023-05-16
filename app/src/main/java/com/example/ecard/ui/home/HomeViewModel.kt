@@ -40,7 +40,7 @@ class HomeViewModel(
                     birthday = it.user.birthday ?: "",
                     phone = it.user.phone ?: "",
                     email = it.user.email ?: "",
-                    image = it.user.image,
+                    image = it.user.imageUrl ?: "",
                     isMe = it.user.isMe,
                     socialList =
                     if (it.socialList.isNotEmpty()) sortSocialList(it.socialList)

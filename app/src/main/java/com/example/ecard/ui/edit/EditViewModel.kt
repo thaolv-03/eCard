@@ -40,14 +40,15 @@ class EditViewModel(
                     birthday = it.user.birthday ?: "",
                     phone = it.user.phone ?: "fsdfsd",
                     email = it.user.email ?: "",
-                    image = it.user.image,
+                    image = it.user.imageUrl ?: "",
+                    isMe = it.user.isMe ?: true,
                     socialList =
                     if (it.socialList.isNotEmpty()) sortSocialList(it.socialList)
                     else dataResource.userExample.socialList
                 )
             }.stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(EditViewModel.TIMEOUT_MILLIS),
+                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = EditUiState()
             )
 

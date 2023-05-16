@@ -20,7 +20,7 @@ class ScanViewModel(
     private val socialRepository: SocialRepository
 ) : ViewModel() {
 
-    val scanOptions = ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+    val scanOptions = ScanOptions().setDesiredBarcodeFormats(ScanOptions.QR_CODE).setBeepEnabled(false)
     fun onScanSuccess(jsonString: String, navigateTo: (String) -> Unit) {
 
         val gson = Gson()

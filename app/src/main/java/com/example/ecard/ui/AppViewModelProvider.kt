@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.ecard.ECardApplication
+import com.example.ecard.ui.contact.ContactViewModel
 import com.example.ecard.ui.edit.EditViewModel
 import com.example.ecard.ui.home.HomeViewModel
 import com.example.ecard.ui.scan.ScanViewModel
@@ -18,6 +19,12 @@ object AppViewModelProvider {
         initializer {
             HomeViewModel(
                 this.createSavedStateHandle(),
+                eCardApplication().container.userRepository
+            )
+        }
+
+        initializer {
+            ContactViewModel(
                 eCardApplication().container.userRepository
             )
         }

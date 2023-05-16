@@ -10,7 +10,8 @@ data class EditUiState(
     val phone: String = "",
     val email: String = "",
     val birthday: String = "",
-    val image: Painter? = null,
+    val image: String = "",
+    val isMe: Boolean = true,
     val socialList: List<Social>? = null
 )
 
@@ -21,5 +22,6 @@ fun EditUiState.toUser(editUiState: EditUiState) =
         phone = phone,
         email = email,
         birthday = birthday,
-        image = image,
+        isMe = isMe,
+        imageUrl = image,
     )

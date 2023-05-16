@@ -11,7 +11,7 @@ data class User(
     var phone: String? = null,
     var email: String? = null,
     var birthday: String? = null,
-    @Ignore var image: Painter? = null,
+    var imageUrl: String? = null,
     var isMe: Boolean? = null
 ) {
     constructor() : this(0) {}

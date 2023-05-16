@@ -8,7 +8,7 @@ data class HomeUiState(
     val phone: String = "",
     val email: String = "",
     val birthday: String = "",
-    val image: Painter? = null,
+    val image: String = "",
     val isMe: Boolean? = null,
     val socialList: List<Social>? = null
 )

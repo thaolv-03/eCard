@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,14 +54,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.ecard.R
-import com.example.ecard.data.model.Contact
-import com.example.ecard.data.model.contacts
+import com.example.ecard.data.model.SimpleUser
+import com.example.ecard.data.model.simpleUsers
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider
 import com.example.ecard.ui.BottomBarEdit
 import com.example.ecard.ui.home.TopAppBarEdit
-import com.example.ecard.ui.share.ShareViewModel
 
 object ContactDestination : NavigationDestination {
     override val route = "contact"
@@ -69,10 +71,11 @@ object ContactDestination : NavigationDestination {
 
 @Composable
 fun ContactScreen(
-    viewModel: ShareViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    contactViewModel: ContactViewModel = viewModel(factory = AppViewModelProvider.Factory),
     currentDestination: NavDestination?,
     navigateTo: (String) -> Unit
 ) {
+    val simpleUserList = contactViewModel.uiState.value.userSimpleList
 
     val localFocusManager = LocalFocusManager.current
 
@@ -89,8 +92,8 @@ fun ContactScreen(
         ) {
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = contactViewModel.uiState.value.searchKey,
+                onValueChange = { contactViewModel.onSearchKeyChange(it) },
                 placeholder = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -138,8 +141,8 @@ fun ContactScreen(
                     .background(MaterialTheme.colors.background)
 
             ) {
-                items(contacts) {
-                    ContactItem(contact = it)
+                items(simpleUserList) { simpleUser ->
+                    ContactItem(simpleUser = simpleUser)
                 }
             }
         }
@@ -149,7 +152,7 @@ fun ContactScreen(
 }
 
 @Composable
-fun ContactItem(contact: Contact, modifier: Modifier = Modifier) {
+fun ContactItem(simpleUser: SimpleUser, modifier: Modifier = Modifier) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
@@ -172,8 +175,8 @@ fun ContactItem(contact: Contact, modifier: Modifier = Modifier) {
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ContactIcon(contact.imageResourceId)
-                ContactInformation(contact.name)
+                ContactIcon(simpleUser.image)
+                ContactInformation(simpleUser.name)
                 Spacer(Modifier.weight(1f))
                 ContactItemButton(expanded = expanded, onClick = { expanded = !expanded })
             }
@@ -202,15 +205,27 @@ private fun ContactItemButton(
 }
 
 @Composable
-fun ContactIcon(@DrawableRes contactIcon: Int, modifier: Modifier = Modifier) {
-    Image(
+fun ContactIcon(imageUrl: String, modifier: Modifier = Modifier) {
+//    Image(
+//        modifier = modifier
+//            .size(64.dp)
+//            .padding(8.dp)
+//            .clip(RoundedCornerShape(50)),
+//        contentScale = ContentScale.Crop,
+//        painter = painterResource(R.drawable.ic_google),
+//        contentDescription = null
+//    )
+
+    AsyncImage(
+        model = ImageRequest.Builder(context = LocalContext.current)
+            .data(imageUrl)
+            .build(),
+        contentDescription = "",
+        contentScale = ContentScale.FillBounds,
         modifier = modifier
             .size(64.dp)
             .padding(8.dp)
             .clip(RoundedCornerShape(50)),
-        contentScale = ContentScale.Crop,
-        painter = painterResource(contactIcon),
-        contentDescription = null
     )
 }
 
