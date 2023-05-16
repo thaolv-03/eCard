@@ -1,5 +1,6 @@
 package com.example.ecard.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -53,6 +54,7 @@ object HomeDestination : NavigationDestination {
 }
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel(factory = Factory),
@@ -165,7 +167,9 @@ fun HomeScreen(
                 }
                 Spacer(modifier = Modifier.padding(it))
             }
+
         }
+
 
         if (homeViewModel.isPopUpSocialItem.value) {
             Dialog(

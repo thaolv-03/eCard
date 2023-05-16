@@ -11,6 +11,7 @@ import com.example.ecard.ui.contact.ContactViewModel
 import com.example.ecard.ui.edit.EditViewModel
 import com.example.ecard.ui.home.HomeViewModel
 import com.example.ecard.ui.scan.ScanViewModel
+import com.example.ecard.ui.setting.SettingViewModel
 import com.example.ecard.ui.share.ShareViewModel
 
 object AppViewModelProvider {
@@ -46,6 +47,12 @@ object AppViewModelProvider {
 
         initializer {
             ShareViewModel(
+                eCardApplication().container.userRepository
+            )
+        }
+
+        initializer {
+            SettingViewModel(
                 eCardApplication().container.userRepository
             )
         }

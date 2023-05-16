@@ -150,6 +150,7 @@ fun ContactScreen(
                         }
                     )
                 }
+
             }
             Spacer(modifier = Modifier.padding(it))
         }

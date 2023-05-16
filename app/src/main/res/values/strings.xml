@@ -30,4 +30,7 @@
     <string name="search_contact">Tìm kiếm liên hệ</string>
     <string name="scan">Quét mã QR</string>
     <string name="click_scan_label">Nhấn để bắt đầu quét</string>
+    <string name="setting">Cài đặt</string>
+    <string name="share_profile">Chia sẻ hồ sơ cá nhân</string>
+    <string name="sign_out">Đăng xuất</string>
 </resources>
