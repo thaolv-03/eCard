@@ -11,6 +11,9 @@ class OfflineSocialRepository(private val socialDao: SocialDao) : SocialReposito
 
 //    fun getSocialWithSocialList(): Flow<List<SocialWithSocialList>>
 
+    override suspend fun deleteByUserId(userId: Int) = socialDao.deleteByUserId(userId)
+
+
     override suspend fun insertSocial(social: Social) = socialDao.insert(social)
 
     override suspend fun deleteSocial(social: Social) = socialDao.delete(social)

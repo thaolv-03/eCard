@@ -28,38 +28,72 @@ fun ECardNavHost(
     NavHost(
         navController = navController,
 //        startDestination = HomeDestination.route,
-//        startDestination = SignInDestination.route,
+        startDestination = SignInDestination.route,
 //        startDestination = ShareDestination.route,
-        startDestination = ScanDestination.route,
+//        startDestination = ScanDestination.route,
         modifier = modifier
     ) {
+        composable(route = SignInDestination.route) {
+            SignInScreen(
+                navigateTo = {
+                    if (navController.currentDestination?.route != HomeDestination.route)
+                        navController.popBackStack()
+                    navController.navigate(it)
+                }
+            )
+        }
+
         composable(route = HomeDestination.route) {
             HomeScreen(
-                navigateTo = { navController.navigate(it) },
+                navigateTo = {
+                    if (it == HomeDestination.route)
+                        navController.popBackStack()
+                    navController.navigate(it)
+                },
                 currentDestination = navController.currentDestination
             )
         }
 
-        composable(ShareDestination.route) {
-            ShareScreen(
-                navigateTo = { navController.navigate(it) },
+        composable(route = EditDestination.route) {
+            EditScreen(
+                navigateTo = {
+                    if (navController.currentDestination?.route != HomeDestination.route)
+                        navController.popBackStack()
+                    navController.navigate(it)
+                },
                 currentDestination = navController.currentDestination
             )
         }
 
         composable(ContactDestination.route) {
             ContactScreen(
-                navigateTo = { navController.navigate(it) },
+                navigateTo = {
+                    if (navController.currentDestination?.route != HomeDestination.route)
+                        navController.popBackStack()
+                    navController.navigate(it)
+                },
                 currentDestination = navController.currentDestination
             )
         }
 
-        composable(route = SignInDestination.route) {
-            SignInScreen()
+        composable(ShareDestination.route) {
+            ShareScreen(
+                navigateTo = {
+                    if (navController.currentDestination?.route != HomeDestination.route)
+                        navController.popBackStack()
+                    navController.navigate(it)
+                },
+                currentDestination = navController.currentDestination
+            )
         }
 
         composable(route = ScanDestination.route) {
-            ScanScreen(navigateTo = { navController.navigate(it) },
+            ScanScreen(
+                navigateTo = {
+                    if (navController.currentDestination?.route != HomeDestination.route)
+                        navController.popBackStack()
+                    navController.navigate(it)
+                },
                 currentDestination = navController.currentDestination
             )
         }
@@ -72,16 +106,14 @@ fun ECardNavHost(
             })
         ) {
             HomeScreen(
-                navigateTo = { navController.navigate(it) },
+                navigateTo = {
+                    navController.popBackStack()
+                    navController.navigate(it)
+                },
                 currentDestination = navController.currentDestination
             )
         }
 
-        composable(route = EditDestination.route) {
-            EditScreen(
-                navigateTo = { navController.navigate(it) },
-                currentDestination = navController.currentDestination
-            )
-        }
+
     }
 }

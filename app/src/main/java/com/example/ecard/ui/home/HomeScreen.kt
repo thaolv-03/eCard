@@ -162,35 +162,6 @@ fun HomeScreen(
                                 .clickable { homeViewModel.onPickSocialItem(5) }
                         )
                     }
-
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    ) {
-                        SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.youtube),
-                            socialName = stringResource(id = R.string.youtube),
-                            modifier = Modifier
-                                .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(3) }
-                        )
-                        SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.linkedin),
-                            socialName = stringResource(id = R.string.linkedIn),
-                            modifier = Modifier
-                                .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(4) }
-                        )
-                        SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.twitter),
-                            socialName = stringResource(id = R.string.twitter),
-                            modifier = Modifier
-                                .width(100.dp)
-                                .clickable { homeViewModel.onPickSocialItem(5) }
-                        )
-                    }
                 }
                 Spacer(modifier = Modifier.padding(it))
             }

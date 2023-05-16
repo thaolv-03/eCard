@@ -12,6 +12,8 @@ interface SocialRepository {
 
 //    fun getSocialWithSocialList(): Flow<List<SocialWithSocialList>>
 
+    suspend fun deleteByUserId(userId: Int)
+
     suspend fun insertSocial(social: Social)
 
     suspend fun deleteSocial(social: Social)

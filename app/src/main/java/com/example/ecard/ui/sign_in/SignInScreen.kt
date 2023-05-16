@@ -24,13 +24,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.ecard.R
 import com.example.ecard.navigation.NavigationDestination
+import com.example.ecard.ui.home.HomeDestination
 import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.firebaseauthyt.data.AuthRepositoryImpl
+import com.example.firebaseauthyt.util.Resource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 object SignInDestination : NavigationDestination {
@@ -39,7 +42,14 @@ object SignInDestination : NavigationDestination {
 }
 
 @Composable
-fun SignInScreen(viewModel: SignInViewModel = SignInViewModel(AuthRepositoryImpl(FirebaseAuth.getInstance()))) {
+fun SignInScreen(
+    navigateTo: (String) -> Unit,
+    viewModel: SignInViewModel = SignInViewModel(AuthRepositoryImpl(FirebaseAuth.getInstance()))
+) {
+    if (Firebase.auth.currentUser != null) {
+        navigateTo(HomeDestination.route)
+    }
+
     val context = LocalContext.current
 
     val launcher =
@@ -79,16 +89,12 @@ fun SignInScreen(viewModel: SignInViewModel = SignInViewModel(AuthRepositoryImpl
                 text = "Đăng nhập với",
                 style = MaterialTheme.typography.h5
             )
+
             Button(
                 onClick = {
-                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .requestIdToken("738243026577-8rlo6ava0nbae9m6eka88l641pdr0arj.apps.googleusercontent.com")
-                        .build()
-
-                    val googleSingInClient = GoogleSignIn.getClient(context, gso)
-
-                    launcher.launch(googleSingInClient.signInIntent)
+                    launcher.launch(viewModel.getSignInIntent(context))
+                    if (viewModel.googleState.value.success != null)
+                        navigateTo(HomeDestination.route)
                 },
                 modifier = Modifier.padding(top = 10.dp),
                 colors = ButtonDefaults.buttonColors(

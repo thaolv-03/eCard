@@ -3,6 +3,7 @@ package com.example.ecard.ui.home
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.telephony.PhoneNumberUtils
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.ActivityCompat
@@ -16,6 +17,7 @@ import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.UserRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class HomeViewModel(
@@ -23,7 +25,7 @@ class HomeViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val userId:Int = savedStateHandle[HomeDestination.userIdArg] ?: 1
+    private val userId: Int = savedStateHandle[HomeDestination.userIdArg] ?: 1
 
     val isPopUpSocialItem = mutableStateOf(false)
     val currentPickSocial: MutableState<Social?> = mutableStateOf(null)
@@ -38,13 +40,13 @@ class HomeViewModel(
                 HomeUiState(
                     name = it.user.name ?: "",
                     birthday = it.user.birthday ?: "",
-                    phone = it.user.phone ?: "",
+                    phone = PhoneNumberUtils.formatNumber(it.user.phone ?: "", "VN"),
                     email = it.user.email ?: "",
                     image = it.user.imageUrl ?: "",
                     isMe = it.user.isMe,
                     socialList =
                     if (it.socialList.isNotEmpty()) sortSocialList(it.socialList)
-                    else  dataResource.userExample.socialList
+                    else dataResource.userExample.socialList
                 )
             }.stateIn(
                 scope = viewModelScope,

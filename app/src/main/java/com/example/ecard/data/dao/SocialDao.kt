@@ -18,6 +18,9 @@ interface SocialDao {
 //    @Query("SELECT * FROM Social")
 //    fun getSocialWithSocialList(): Flow<List<SocialWithSocialList>>
 
+    @Query("DELETE FROM social WHERE userId = :userId")
+    suspend fun deleteByUserId(userId: Int)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(social: Social)
 

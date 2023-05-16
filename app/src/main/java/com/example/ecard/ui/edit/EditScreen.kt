@@ -178,35 +178,6 @@ fun EditScreen(
                                 .clickable { editViewModel.onPickSocialItem(5) }
                         )
                     }
-
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    ) {
-                        SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.facebook),
-                            socialName = stringResource(id = R.string.facebook),
-                            modifier = Modifier
-                                .width(100.dp)
-                                .clickable { editViewModel.onPickSocialItem(0) }
-                        )
-                        SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.instagram),
-                            socialName = stringResource(id = R.string.instagram),
-                            modifier = Modifier
-                                .width(100.dp)
-                                .clickable { editViewModel.onPickSocialItem(1) }
-                        )
-                        SocialInforItem(
-                            socialImage = painterResource(id = R.drawable.tiktok),
-                            socialName = stringResource(id = R.string.tiktok),
-                            modifier = Modifier
-                                .width(100.dp)
-                                .clickable { editViewModel.onPickSocialItem(2) }
-                        )
-                    }
                 }
                 Spacer(modifier = Modifier.padding(it))
             }
@@ -267,7 +238,12 @@ fun EditScreen(
 }
 
 @Composable
-fun ImageAndName(imageUrl: String, description: String, name: String, modifier: Modifier = Modifier) {
+fun ImageAndName(
+    imageUrl: String,
+    description: String,
+    name: String,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally

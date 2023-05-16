@@ -25,7 +25,8 @@ object AppViewModelProvider {
 
         initializer {
             ContactViewModel(
-                eCardApplication().container.userRepository
+                eCardApplication().container.userRepository,
+                eCardApplication().container.socialRepository
             )
         }
 

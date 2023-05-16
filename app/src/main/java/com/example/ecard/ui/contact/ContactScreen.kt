@@ -1,10 +1,8 @@
 package com.example.ecard.ui.contact
 
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -48,18 +46,17 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.ecard.R
 import com.example.ecard.data.model.SimpleUser
-import com.example.ecard.data.model.simpleUsers
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider
 import com.example.ecard.ui.BottomBarEdit
@@ -77,6 +74,7 @@ fun ContactScreen(
     currentDestination: NavDestination?,
     navigateTo: (String) -> Unit
 ) {
+    val context = LocalContext.current
     val simpleUserList = contactViewModel.uiState.value.userSimpleList
 
     val localFocusManager = LocalFocusManager.current
@@ -92,7 +90,6 @@ fun ContactScreen(
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-
             OutlinedTextField(
                 value = contactViewModel.uiState.value.searchKey,
                 onValueChange = { contactViewModel.onSearchKeyChange(it) },
@@ -144,18 +141,26 @@ fun ContactScreen(
 
             ) {
                 items(simpleUserList) { simpleUser ->
-                    ContactItem(simpleUser = simpleUser, navigateTo = navigateTo)
+                    ContactItem(
+                        simpleUser = simpleUser,
+                        navigateTo = { navigateTo("${HomeDestination.route}/${simpleUser.userId}") },
+                        onDeleteButtonClick = {
+                            contactViewModel.onDeleteButtonClick(simpleUser.userId)
+                            navigateTo(ContactDestination.route)
+                        }
+                    )
                 }
             }
+            Spacer(modifier = Modifier.padding(it))
         }
 
-        Spacer(modifier = Modifier.padding(it))
     }
 }
 
 @Composable
 fun ContactItem(
-    navigateTo: (String) -> Unit,
+    navigateTo: () -> Unit,
+    onDeleteButtonClick: () -> Unit,
     simpleUser: SimpleUser,
     modifier: Modifier = Modifier
 ) {
@@ -164,9 +169,7 @@ fun ContactItem(
     Card(
         modifier = modifier
             .padding(8.dp)
-            .clickable {
-                navigateTo("${HomeDestination.route}/${simpleUser.userId}")
-            },
+            .clickable(onClick = navigateTo),
         elevation = 4.dp
     ) {
         Column(
@@ -192,7 +195,9 @@ fun ContactItem(
             }
             if (expanded) {
                 ContactExpended(
-                    onAccessClick = { navigateTo("${HomeDestination.route}/${simpleUser.userId}") },
+                    onAccessButtonClick = navigateTo,
+                    onDeleteButtonClick = onDeleteButtonClick,
+                    isMe = simpleUser.isMe,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
@@ -252,14 +257,19 @@ fun ContactInformation(contactName: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ContactExpended(onAccessClick: () -> Unit, modifier: Modifier = Modifier) {
+fun ContactExpended(
+    onAccessButtonClick: () -> Unit,
+    onDeleteButtonClick: () -> Unit,
+    isMe: Boolean,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(
-            onClick = onAccessClick,
+            onClick = onAccessButtonClick,
             modifier = Modifier
                 .width(180.dp)
 //                .padding(vertical = 5.dp, horizontal = 10.dp)
@@ -271,13 +281,15 @@ fun ContactExpended(onAccessClick: () -> Unit, modifier: Modifier = Modifier) {
             )
         }
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = onDeleteButtonClick,
             modifier = Modifier
         ) {
-            Icon(
-                imageVector = Icons.Outlined.Delete,
-                contentDescription = stringResource(id = R.string.delete)
-            )
+            if (!isMe) {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = stringResource(id = R.string.delete)
+                )
+            }
         }
     }
 }
