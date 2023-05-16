@@ -65,7 +65,7 @@ fun SignInScreen(
             try {
                 val result = account.getResult(ApiException::class.java)
                 val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
-                viewModel.googleSignIn(credentials, { navigateTo(HomeDestination.route) })
+                viewModel.googleSignIn(credentials) { navigateTo(HomeDestination.route) }
             } catch (it: ApiException) {
                 print(it)
             }

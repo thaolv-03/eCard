@@ -126,7 +126,8 @@ fun ECardNavHost(
                 },
                 currentDestination = navController.currentDestination,
                 onSignOut = {
-                    navController.popBackStack(SignInDestination.route, false)
+                    navController.popBackStack(HomeDestination.route, true)
+                    navController.navigate(SignInDestination.route)
                 }
             )
         }

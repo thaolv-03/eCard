@@ -84,10 +84,11 @@ fun SettingScreen(
                         ProfileInformation(gUser?.displayName ?: "")
                     }
 
-                    SignOutButton({
-                        settingViewModel.onSignOutButtonClick()
-                        onSignOut()
-                    })
+                    SignOutButton(
+                        {
+                            settingViewModel.onSignOutButtonClick(context)
+                            onSignOut()
+                        })
                 }
             }
 
