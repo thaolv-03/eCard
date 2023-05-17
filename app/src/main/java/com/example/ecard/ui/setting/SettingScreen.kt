@@ -100,12 +100,12 @@ fun SettingScreen(
             ) {
                 Column() {
                     Text(
-                        text = "Giao diện",
+                        text = stringResource(R.string.theme_title),
                         style = MaterialTheme.typography.h5,
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                     Text(
-                        text = "Theo chế độ mặc định của hệ thống",
+                        text = stringResource(R.string.theme_content),
                         style = MaterialTheme.typography.body1
                     )
                 }
@@ -118,12 +118,12 @@ fun SettingScreen(
             ) {
                 Column() {
                     Text(
-                        text = "Phiên bản ứng dụng",
+                        text = stringResource(R.string.app_version_title),
                         style = MaterialTheme.typography.h5,
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                     Text(
-                        text = "eCard 1.0",
+                        text = stringResource(R.string.app_version_content),
                         style = MaterialTheme.typography.body1
                     )
                 }
@@ -136,12 +136,12 @@ fun SettingScreen(
             ) {
                 Column() {
                     Text(
-                        text = "Giới thiệu về ứng dụng",
+                        text = stringResource(R.string.introduce_title),
                         style = MaterialTheme.typography.h5,
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                     Text(
-                        text = "Ứng dụng là đóng vai trò là một danh thiếp mobile giúp chia sẻ thông tin cá nhân như họ tên, số điện thoại, email, các liên kết mạng xã hội (Facebook, Instagram, LinkedIn,...) với các thiết bị khác",
+                        text = stringResource(R.string.introduce_content),
                         style = MaterialTheme.typography.body1,
                         textAlign = TextAlign.Justify
                     )
@@ -167,16 +167,6 @@ fun ProfileImage(imageUrl: Uri?, modifier: Modifier = Modifier) {
             .padding(8.dp)
             .clip(RoundedCornerShape(50)),
     )
-
-//    Image(
-//        painter = painterResource(id = R.drawable.avatar),
-//        contentDescription = null,
-//        contentScale = ContentScale.FillBounds,
-//        modifier = modifier
-//            .size(64.dp)
-//            .padding(8.dp)
-//            .clip(RoundedCornerShape(50)),
-//    )
 }
 
 @Composable

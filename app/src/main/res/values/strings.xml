@@ -33,4 +33,10 @@
     <string name="setting">Cài đặt</string>
     <string name="share_profile">Chia sẻ hồ sơ cá nhân</string>
     <string name="sign_out">Đăng xuất</string>
+    <string name="introduce_content">Ứng dụng đóng vai trò là một danh thiếp mobile giúp chia sẻ thông tin cá nhân như họ tên, số điện thoại, email, các liên kết mạng xã hội (Facebook, Instagram, LinkedIn,...) với các thiết bị khác</string>
+    <string name="introduce_title">Giới thiệu về ứng dụng</string>
+    <string name="app_version_content">eCard 1.0</string>
+    <string name="app_version_title">Phiên bản ứng dụng</string>
+    <string name="theme_title">Giao diện</string>
+    <string name="theme_content">Theo chế độ mặc định của hệ thống</string>
 </resources>
