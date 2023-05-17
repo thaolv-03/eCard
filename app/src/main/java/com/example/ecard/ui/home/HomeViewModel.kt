@@ -15,6 +15,10 @@ import com.example.ecard.data.dataResource
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.UserRepository
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -22,7 +26,7 @@ import java.util.Locale
 
 class HomeViewModel(
     savedStateHandle: SavedStateHandle,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val userId: Int = savedStateHandle[HomeDestination.userIdArg] ?: 1
@@ -31,6 +35,10 @@ class HomeViewModel(
     val currentPickSocial: MutableState<Social?> = mutableStateOf(null)
 
     init {
+    }
+
+    fun getGUser(context: Context): GoogleSignInAccount? {
+        return GoogleSignIn.getLastSignedInAccount(context)
     }
 
     val uiState: StateFlow<HomeUiState> =

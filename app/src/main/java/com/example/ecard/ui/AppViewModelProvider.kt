@@ -13,12 +13,22 @@ import com.example.ecard.ui.home.HomeViewModel
 import com.example.ecard.ui.scan.ScanViewModel
 import com.example.ecard.ui.setting.SettingViewModel
 import com.example.ecard.ui.share.ShareViewModel
+import com.example.ecard.ui.sign_in.SignInViewModel
+import com.example.firebaseauthyt.data.AuthRepositoryImpl
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
+        initializer {
+            SignInViewModel(
+                AuthRepositoryImpl(FirebaseAuth.getInstance()),
+                eCardApplication().container.userRepository
+            )
+        }
+
         // Initializer for ItemEditViewModel
         initializer {
             HomeViewModel(

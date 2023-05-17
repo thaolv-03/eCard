@@ -79,6 +79,7 @@ fun ContactScreen(
 
     val localFocusManager = LocalFocusManager.current
 
+//    val photo = gUser?.photoUrl.toString().replace("s96-c", "s400-c")
     Scaffold(
         topBar = {
             TopAppBarEdit(title = R.string.contact)
@@ -225,16 +226,6 @@ private fun ContactItemButton(
 
 @Composable
 fun ContactIcon(imageUrl: String, modifier: Modifier = Modifier) {
-//    Image(
-//        modifier = modifier
-//            .size(64.dp)
-//            .padding(8.dp)
-//            .clip(RoundedCornerShape(50)),
-//        contentScale = ContentScale.Crop,
-//        painter = painterResource(R.drawable.ic_google),
-//        contentDescription = null
-//    )
-
     AsyncImage(
         model = ImageRequest.Builder(context = LocalContext.current)
             .data(imageUrl)

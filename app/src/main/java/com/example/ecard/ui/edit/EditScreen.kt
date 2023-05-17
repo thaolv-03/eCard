@@ -48,12 +48,10 @@ import com.example.ecard.R
 import com.example.ecard.data.model.CONST
 import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.SocialName
-import com.example.ecard.data.model.SocialType
 import com.example.ecard.data.model.User
 import com.example.ecard.navigation.NavigationDestination
 import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.BottomBarEdit
-import com.example.ecard.ui.home.ImageAndName
 import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.ecard.ui.theme.ECardTheme
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
@@ -248,9 +246,11 @@ fun ImageAndName(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val imageUrlEdit = imageUrl.replace("s96-c", "s400-c")
+
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data(imageUrl)
+                .data(imageUrlEdit)
                 .build(),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,

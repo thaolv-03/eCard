@@ -64,6 +64,8 @@ fun HomeScreen(
     val uiState = homeViewModel.uiState.collectAsState()
     val user = uiState.value
 
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBarEdit(
@@ -208,18 +210,11 @@ fun ImageAndName(imageUrl: String, description: String, name: String, modifier: 
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        Image(
-//            painter = image,
-//            contentDescription = description,
-//            modifier = Modifier
-//                .size(180.dp)
-//                .clip(RoundedCornerShape(50)),
-//            contentScale = ContentScale.Crop
-//        )
+        val imageUrlEdit = imageUrl.replace("s96-c", "s400-c")
 
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data(imageUrl)
+                .data(imageUrlEdit)
                 .build(),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,

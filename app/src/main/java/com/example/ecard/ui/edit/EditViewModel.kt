@@ -1,5 +1,6 @@
 package com.example.ecard.ui.edit
 
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,9 @@ import com.example.ecard.data.model.Social
 import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.SocialRepository
 import com.example.ecard.data.repository.UserRepository
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -21,7 +25,7 @@ import java.time.format.DateTimeFormatter
 
 class EditViewModel(
     private val userRepository: UserRepository,
-    private val socialRepository: SocialRepository
+    private val socialRepository: SocialRepository,
 ) : ViewModel() {
 
     val isPopUpSocialItem = mutableStateOf(false)
@@ -29,6 +33,10 @@ class EditViewModel(
 
     val isPopUpInforItem = mutableStateOf(false)
     val currentPickInfor: MutableState<User?> = mutableStateOf(null)
+
+    fun getGUser(context: Context): GoogleSignInAccount? {
+        return GoogleSignIn.getLastSignedInAccount(context)
+    }
 
     val uiState: StateFlow<EditUiState> =
         userRepository.getUserWithSocialList(1)

@@ -24,8 +24,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ecard.R
 import com.example.ecard.navigation.NavigationDestination
+import com.example.ecard.ui.AppViewModelProvider.Factory
 import com.example.ecard.ui.home.HomeDestination
 import com.example.ecard.ui.home.TopAppBarEdit
 import com.example.firebaseauthyt.data.AuthRepositoryImpl
@@ -46,13 +48,16 @@ object SignInDestination : NavigationDestination {
 @Composable
 fun SignInScreen(
     navigateTo: (String) -> Unit,
-    viewModel: SignInViewModel = SignInViewModel(AuthRepositoryImpl(FirebaseAuth.getInstance()))
+    viewModel: SignInViewModel = viewModel(factory = Factory)
 ) {
 
-    remember {
+    val isSignIn = remember {
         if ((Firebase.auth.currentUser != null) or (viewModel.googleState.value.success != null)) {
             navigateTo(HomeDestination.route)
             Log.e("TEST", "LOOP?")
+            return@remember true
+        } else {
+            return@remember false
         }
     }
 
@@ -65,7 +70,7 @@ fun SignInScreen(
             try {
                 val result = account.getResult(ApiException::class.java)
                 val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
-                viewModel.googleSignIn(credentials) { navigateTo(HomeDestination.route) }
+                viewModel.googleSignIn(credentials, context) { navigateTo(HomeDestination.route) }
             } catch (it: ApiException) {
                 print(it)
             }

@@ -1,6 +1,6 @@
 package com.example.ecard.ui.contact
 
-import androidx.compose.runtime.mutableStateListOf
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,11 +8,7 @@ import com.example.ecard.data.model.SimpleUser
 import com.example.ecard.data.model.User
 import com.example.ecard.data.repository.SocialRepository
 import com.example.ecard.data.repository.UserRepository
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
@@ -26,7 +22,6 @@ class ContactViewModel(
     val uiState = mutableStateOf(ContactUiState())
 
     var dataFromDB = listOf<SimpleUser>()
-
 
     init {
         viewModelScope.launch {
