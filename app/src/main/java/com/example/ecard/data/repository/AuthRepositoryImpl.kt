@@ -1,4 +1,4 @@
-package com.example.firebaseauthyt.data
+package com.example.ecard.data.repository
 
 import com.example.firebaseauthyt.util.Resource
 import com.google.firebase.auth.AuthCredential

@@ -14,7 +14,7 @@ import com.example.ecard.presentation.scan.ScanViewModel
 import com.example.ecard.presentation.setting.SettingViewModel
 import com.example.ecard.presentation.share.ShareViewModel
 import com.example.ecard.presentation.sign_in.SignInViewModel
-import com.example.firebaseauthyt.data.AuthRepositoryImpl
+import com.example.ecard.data.repository.AuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

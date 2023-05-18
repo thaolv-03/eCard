@@ -1,4 +1,4 @@
-package com.example.firebaseauthyt.data
+package com.example.ecard.data.repository
 
 import com.example.firebaseauthyt.util.Resource
 import com.google.firebase.auth.AuthCredential
@@ -9,6 +9,5 @@ interface AuthRepository {
     fun loginUser(email: String, password: String): Flow<Resource<AuthResult>>
     fun registerUser(email: String, password: String): Flow<Resource<AuthResult>>
     fun googleSignIn(credential: AuthCredential): Flow<Resource<AuthResult>>
-
 
 }

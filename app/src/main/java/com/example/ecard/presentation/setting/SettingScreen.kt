@@ -205,6 +205,6 @@ fun SettingInterface() {
         onDismissRequest = { },
         properties = DialogProperties(false)
     ) {
-        Text(text = "abc")
+//        Text(text = "abc")
     }
 }

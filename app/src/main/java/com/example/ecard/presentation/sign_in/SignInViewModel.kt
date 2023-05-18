@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecard.R
 import com.example.ecard.data.repository.UserRepository
-import com.example.firebaseauthyt.data.AuthRepository
+import com.example.ecard.data.repository.AuthRepository
 import com.example.firebaseauthyt.util.Resource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
