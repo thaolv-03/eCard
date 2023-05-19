@@ -39,4 +39,8 @@
     <string name="app_version_title">Phiên bản ứng dụng</string>
     <string name="theme_title">Giao diện</string>
     <string name="theme_content">Theo chế độ mặc định của hệ thống</string>
+    <string name="place_holder_phone_number">Nhập số điện thoại</string>
+    <string name="place_holder_email">Nhập email</string>
+    <string name="place_holder_birth_day" />
+    <string name="place_holder_links">Nhập liên kết</string>
 </resources>

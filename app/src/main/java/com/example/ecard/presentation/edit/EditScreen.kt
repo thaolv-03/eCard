@@ -397,6 +397,7 @@ fun SocialInforItemEditPopup(
             Column(modifier = Modifier.padding(bottom = 10.dp)) {
                 OutLinedTextFieldEdit(
                     value = social.userName,
+                    placeholderText = stringResource(id = R.string.place_holder_user_name),
                     onValueChange = onUserNameChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
@@ -405,6 +406,7 @@ fun SocialInforItemEditPopup(
                 )
                 OutLinedTextFieldEdit(
                     value = social.link,
+                    placeholderText = stringResource(id = R.string.place_holder_links),
                     onValueChange = onLinkChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
@@ -514,6 +516,7 @@ fun InforItemEditPopup(
             Column(modifier = Modifier.padding(bottom = 10.dp)) {
                 OutLinedTextFieldEdit(
                     value = user.name ?: "",
+                    placeholderText = stringResource(id = R.string.place_holder_user_name),
                     onValueChange = onNameChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
@@ -522,6 +525,7 @@ fun InforItemEditPopup(
                 )
                 OutLinedTextFieldEdit(
                     value = user.phone ?: "",
+                    placeholderText = stringResource(id = R.string.place_holder_phone_number),
                     onValueChange = onPhoneChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
@@ -531,6 +535,7 @@ fun InforItemEditPopup(
                 )
                 OutLinedTextFieldEdit(
                     value = user.email ?: "",
+                    placeholderText = stringResource(id = R.string.place_holder_email),
                     onValueChange = onEmailChange,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next
@@ -602,6 +607,7 @@ fun InforItemEditPopup(
 @Composable
 fun OutLinedTextFieldEdit(
     value: String,
+    placeholderText: String,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions,
     readOnly: Boolean = false,
@@ -625,7 +631,7 @@ fun OutLinedTextFieldEdit(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = stringResource(id = R.string.place_holder_user_name),
+                    text = placeholderText,
                     style = MaterialTheme.typography.h5.copy(
                         fontWeight = FontWeight.Normal
                     ),

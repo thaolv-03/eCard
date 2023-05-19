@@ -7,9 +7,10 @@ import androidx.room.RoomDatabase
 import com.example.ecard.data.dao.SocialDao
 import com.example.ecard.data.dao.UserDao
 import com.example.ecard.data.model.Social
+import com.example.ecard.data.model.SocialType
 import com.example.ecard.data.model.User
 
-@Database(entities = [User::class, Social::class], version = 5, exportSchema = false)
+@Database(entities = [User::class, Social::class, SocialType::class], version = 6, exportSchema = false)
 abstract class ECardDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun socialDao(): SocialDao
