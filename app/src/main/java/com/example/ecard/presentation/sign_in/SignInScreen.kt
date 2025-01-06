@@ -48,15 +48,16 @@ fun SignInScreen(
     viewModel: SignInViewModel = viewModel(factory = Factory)
 ) {
 
-    val isSignIn = remember {
-        if ((Firebase.auth.currentUser != null) or (viewModel.googleState.value.success != null)) {
-            navigateTo(HomeDestination.route)
-            Log.e("TEST", "LOOP?")
-            return@remember true
-        } else {
-            return@remember false
-        }
-    }
+//    val isSignIn = remember {
+////        if ((Firebase.auth.currentUser != null) or (viewModel.googleState.value.success != null)) {
+//        if ((Firebase.auth.currentUser != null)) {
+//            navigateTo(HomeDestination.route)
+//            Log.e("TEST", "LOOP?")
+//            return@remember true
+//        } else {
+//            return@remember false
+//        }
+//    }
 
 
     val context = LocalContext.current
@@ -67,9 +68,14 @@ fun SignInScreen(
             try {
                 val result = account.getResult(ApiException::class.java)
                 val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
-                viewModel.googleSignIn(credentials, context) { navigateTo(HomeDestination.route) }
+                viewModel.googleSignIn(credentials, context) {
+                    navigateTo(HomeDestination.route)
+                }
             } catch (it: ApiException) {
+                Log.e("Log In screen", "Not Login, ${it.message}")
                 print(it)
+            } finally {
+                navigateTo(HomeDestination.route)
             }
         }
 

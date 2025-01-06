@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
@@ -90,6 +91,7 @@ fun ScanScreen(
                 Text(
                     text = stringResource(R.string.click_scan_label),
                     style = MaterialTheme.typography.h6,
+                    textAlign = TextAlign.Center,
                     color = MaterialTheme.colors.secondary,
                     modifier = Modifier.padding(horizontal = 45.dp, vertical = 3.dp)
                 )

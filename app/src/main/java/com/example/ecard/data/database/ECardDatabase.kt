@@ -23,11 +23,6 @@ abstract class ECardDatabase : RoomDatabase() {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, ECardDatabase::class.java, "ecard_database")
-                    /**
-                     * Setting this option in your app's database builder means that Room
-                     * permanently deletes all data from the tables in your database when it
-                     * attempts to perform a migration with no defined migration path.
-                     */
                     .createFromAsset("databases/ecard_database.db")
                     .fallbackToDestructiveMigration()
                     .build()

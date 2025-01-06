@@ -2,6 +2,7 @@ package com.example.ecard.presentation.sign_in
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.AuthCredential
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -26,8 +28,9 @@ class SignInViewModel(
     val name = mutableStateOf("")
     val id = mutableStateOf("")
 
-    val _signInState = Channel<SignInState>()
-    val signInState = _signInState.receiveAsFlow()
+    //    val _signInState = Channel<SignInState>()
+    private val _signInState = MutableStateFlow(SignInState())
+    val signInState = _signInState
 
     val _googleState = mutableStateOf(GoogleSignInState())
     val googleState: State<GoogleSignInState> = _googleState
@@ -50,13 +53,15 @@ class SignInViewModel(
 
     fun googleSignIn(credential: AuthCredential, context: Context, onSignInSuccess: () -> Unit) =
         viewModelScope.launch {
+            Log.i("GoogleSignIn", "Start SignIn")
             authRepository.googleSignIn(credential).collect { result ->
                 when (result) {
                     is Resource.Success<*> -> {
+                        Log.i("GoogleSignIn", "Successfully signed in")
                         _googleState.value = GoogleSignInState(success = result.data)
                         onSignInSuccess()
 
-                        updatePhotoUser(getGUser(context)?.photoUrl.toString() ?: "")
+                        updatePhotoUser(getGUser(context)?.photoUrl.toString())
                     }
 
                     is Resource.Loading<*> -> {

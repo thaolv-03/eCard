@@ -2,6 +2,7 @@ package com.example.ecard.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Popup
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -38,8 +39,9 @@ fun ECardNavHost(
         composable(route = SignInDestination.route) {
             SignInScreen(
                 navigateTo = {
-                    if (navController.currentDestination?.route != HomeDestination.route)
-                        navController.popBackStack()
+//                    if (navController.currentDestination?.route != HomeDestination.route)
+//                        navController.popBackStack()
+                    navController.popBackStack()
                     navController.navigate(it)
                 }
             )
@@ -48,9 +50,11 @@ fun ECardNavHost(
         composable(route = HomeDestination.route) {
             HomeScreen(
                 navigateTo = {
-                    if (it == HomeDestination.route)
-                        navController.popBackStack()
-                    navController.navigate(it)
+//                    if (it == HomeDestination.route)
+//                        navController.popBackStack()
+//                    navController.navigate(it)
+                    navigateToEdit(it, navController)
+
                 },
                 currentDestination = navController.currentDestination
             )
@@ -59,9 +63,11 @@ fun ECardNavHost(
         composable(route = EditDestination.route) {
             EditScreen(
                 navigateTo = {
-                    if (navController.currentDestination?.route != HomeDestination.route)
-                        navController.popBackStack()
-                    navController.navigate(it)
+//                    if (navController.currentDestination?.route != HomeDestination.route)
+//                        navController.popBackStack()
+//                    navController.navigate(it)
+                    navigateToEdit(it, navController)
+
                 },
                 currentDestination = navController.currentDestination
             )
@@ -70,9 +76,13 @@ fun ECardNavHost(
         composable(ContactDestination.route) {
             ContactScreen(
                 navigateTo = {
-                    if (navController.currentDestination?.route != HomeDestination.route)
-                        navController.popBackStack()
-                    navController.navigate(it)
+//                    if (navController.currentDestination?.route != HomeDestination.route) {
+//                        navController.popBackStack()
+//                        navController.navigate(it)
+//                    }
+//                    navController.popBackStack()
+                    navigateToEdit(it, navController)
+
                 },
                 currentDestination = navController.currentDestination
             )
@@ -81,9 +91,13 @@ fun ECardNavHost(
         composable(ShareDestination.route) {
             ShareScreen(
                 navigateTo = {
-                    if (navController.currentDestination?.route != HomeDestination.route)
-                        navController.popBackStack()
-                    navController.navigate(it)
+//                    if (navController.currentDestination?.route != HomeDestination.route) {
+//                        navController.popBackStack()
+//                        navController.navigate(it)
+//                    }
+//                    navController.popBackStack()
+                    navigateToEdit(it, navController)
+
                 },
                 currentDestination = navController.currentDestination
             )
@@ -92,9 +106,13 @@ fun ECardNavHost(
         composable(route = ScanDestination.route) {
             ScanScreen(
                 navigateTo = {
-                    if (navController.currentDestination?.route != HomeDestination.route)
-                        navController.popBackStack()
-                    navController.navigate(it)
+//                    if (navController.currentDestination?.route != HomeDestination.route) {
+//                        navController.popBackStack()
+//                        navController.navigate(it)
+//                    }
+//                    navController.popBackStack()
+                    navigateToEdit(it, navController)
+
                 },
                 currentDestination = navController.currentDestination
             )
@@ -109,8 +127,10 @@ fun ECardNavHost(
         ) {
             HomeScreen(
                 navigateTo = {
-                    navController.popBackStack()
-                    navController.navigate(it)
+//                    navController.popBackStack()
+//                    navController.navigate(it)
+                    navigateToEdit(it, navController)
+
                 },
                 currentDestination = navController.currentDestination
             )
@@ -121,8 +141,9 @@ fun ECardNavHost(
         ) {
             SettingScreen(
                 navigateTo = {
-                    navController.popBackStack()
-                    navController.navigate(it)
+//                    navController.popBackStack()
+//                    navController.navigate(it)
+                    navigateToEdit(it, navController)
                 },
                 currentDestination = navController.currentDestination,
                 onSignOut = {
@@ -132,5 +153,12 @@ fun ECardNavHost(
             )
         }
 
+    }
+}
+
+fun navigateToEdit(route: String, navController: NavHostController) {
+    navController.navigate(route) {
+        popUpTo(HomeDestination.route)
+        launchSingleTop = true
     }
 }
